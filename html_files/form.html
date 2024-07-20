@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forms for Machine Operations</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+        }
+        form {
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            padding: 20px;
+        }
+        form label {
+            display: block;
+            margin-bottom: 10px;
+        }
+        form input[type="file"], form input[type="submit"], form button {
+            margin-top: 10px;
+        }
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        table, th, td {
+            border: 1px solid #ccc;
+            padding: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Form for uploading configuration file -->
+        <form id="uploadForm" action="http://localhost:8080/upload" method="post" enctype="multipart/form-data">
+            <h2>Upload Configuration File</h2>
+            <label for="configFile">Choose a configuration file:</label>
+            <input type="file" id="configFile" name="configFile" accept=".json, .xml">
+            <br>
+            <input type="submit" value="Deploy">
+        </form>
+
+        <!-- Form for sending message to topic -->
+        <form id="messageForm" action="http://localhost:8080/publish" method="get">
+            <h2>Send Message to Topic</h2>
+            <label for="topic">Topic:</label>
+            <input type="text" id="topic" name="topic" placeholder="Enter topic name" required>
+            <br>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="4" placeholder="Enter your message" required></textarea>
+            <br>
+            <button type="submit">Send Message</button>
+        </form>
+
+        <!-- Placeholder for additional forms -->
+        <!-- Add more forms as needed for remote machine operations -->
+    </div>
+
+    <!-- Table to display output for message sent to topic -->
+    <div class="container">
+        <h2>Messages Sent to Topic</h2>
+        <table id="messageTable">
+            <thead>
+                <tr>
+                    <th>Topic</th>
+                    <th>Message</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Data will be dynamically populated here -->
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Scripts for handling form submissions and displaying results -->
+    <script>
+        // JavaScript code can be added here to handle form submissions and update the table dynamically
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Graph Visualization with Arrows</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+    }
+    canvas {
+        border: 1px solid #000;
+    }
+</style>
+</head>
+<body>
+    <canvas id="graphCanvas" width="800" height="600"></canvas>
+    <script>
+        // Example graph data (replace with your computational graph data)
+        const graphData = {
+            nodes: [
+                { id: 'A', type: 'topic', color: 'blue' },
+                { id: 'B', type: 'topic', color: 'green' },
+                { id: '+', type: 'agent', color: 'red' },
+                { id: '-', type: 'agent', color: 'orange' },
+                { id: '*', type: 'agent', color: 'purple' }
+            ],
+            edges: [
+                { source: 'A', target: '+', label: 'input' },
+                { source: 'B', target: '+', label: 'input' },
+                { source: '+', target: '*', label: 'output' },
+                { source: 'A', target: '-', label: 'input' },
+                { source: 'B', target: '-', label: 'input' },
+                { source: '-', target: '*', label: 'output' }
+            ]
+        };
+
+        // Function to draw the graph on the canvas
+        function drawGraph() {
+            const canvas = document.getElementById('graphCanvas');
+            const ctx = canvas.getContext('2d');
+
+            // Clear canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw nodes (topics and agents)
+            graphData.nodes.forEach(node => {
+                ctx.beginPath();
+                if (node.type === 'topic') {
+                    ctx.fillStyle = node.color || 'black';
+                    ctx.fillRect(100, 100, 80, 40); // Example position for topic nodes
+                } else if (node.type === 'agent') {
+                    ctx.fillStyle = node.color || 'black';
+                    ctx.arc(300, 100, 20, 0, 2 * Math.PI); // Example position for agent nodes
+                    ctx.fill();
+                }
+                ctx.closePath();
+
+                // Draw node label
+                ctx.fillStyle = 'black';
+                ctx.fillText(node.id, 110, 120); // Adjust position for label
+            });
+
+            // Draw edges (arrows)
+            graphData.edges.forEach(edge => {
+                const sourceNode = graphData.nodes.find(node => node.id === edge.source);
+                const targetNode = graphData.nodes.find(node => node.id === edge.target);
+
+                // Example: draw arrow from source to target
+                const arrowSize = 10;
+                const angle = Math.atan2(targetNode.y - sourceNode.y, targetNode.x - sourceNode.x);
+                const startX = 180; // Example position for arrow start
+                const startY = 120;
+                const endX = 280; // Example position for arrow end
+                const endY = 120;
+
+                // Draw line
+                ctx.beginPath();
+                ctx.moveTo(startX, startY);
+                ctx.lineTo(endX, endY);
+                ctx.stroke();
+
+                // Draw arrowhead
+                ctx.save();
+                ctx.translate(endX, endY);
+                ctx.rotate(angle);
+
+                ctx.beginPath();
+                ctx.moveTo(-arrowSize, arrowSize / 2);
+                ctx.lineTo(0, 0);
+                ctx.lineTo(-arrowSize, -arrowSize / 2);
+                ctx.stroke();
+
+                ctx.restore();
+
+                // Draw edge label
+                ctx.fillStyle = 'black';
+                ctx.fillText(edge.label, 230, 115); // Adjust position for label
+            });
+        }
+
+        // Call drawGraph function to draw initial graph
+        drawGraph();
+    </script>
+</body>
+</html>
