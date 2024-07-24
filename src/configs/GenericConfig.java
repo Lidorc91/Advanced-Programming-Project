@@ -34,12 +34,11 @@ public class GenericConfig implements Config {
 		if(data.size() %3 != 0) {
 			return;
 		}
-		PlusAgent agent = new PlusAgent(null, null);
-		String fullyQualifiedName = agent.getClass().getName();
-		System.out.println(fullyQualifiedName); // Output: configs.PlusAgent
+		
 		for(int i = 0; i < data.size(); i+=3) { //read 3 lines per agent
 			try {
-				String className = data.get(i).replaceAll("project_biu.", "src.");
+				String className = data.get(i).replaceAll("project_biu.", "");
+				className = className.trim(); // Remove whitespace characters
 				Class<?> agentClass = Class.forName(className);
 				Class<?>[] parameterTypes = new Class<?>[2]; 
 				parameterTypes[0] = String[].class;
