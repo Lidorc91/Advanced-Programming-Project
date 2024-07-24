@@ -1,14 +1,15 @@
 package views;
 
-import java.io.*;
-import java.util.*;
 import configs.Graph;
 import configs.Node;
+import java.io.*;
+import java.util.*;
 
 public class HtmlGraphWriter {
     public static ArrayList<String> getGraphHTML(Graph graph) throws IOException {
         ArrayList<String> htmlContent = new ArrayList<>();
 
+		//TODO - Got an Input Stream is Null error here - maybe add a try-catch ?
         // Load the static HTML template
         InputStream inputStream = HtmlGraphWriter.class.getResourceAsStream("/graph.html");
         byte[] buffer = new byte[inputStream.available()];
