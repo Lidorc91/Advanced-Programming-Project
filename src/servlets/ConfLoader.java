@@ -14,25 +14,30 @@ public class ConfLoader implements Servlet{
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         Map<String, String> httpParameters = requestInfo.getParameters();
         String fileName = httpParameters.get("filename");
+        String currentWorkingDir = System.getProperty("user.dir");
+        System.out.println("Current working directory: " + currentWorkingDir);
         String fileContent = new String(requestInfo.getContent());
-        File directory = new File("uploaded_files/");
-        File file = new File("uploaded_files/" + fileName);
-
-        try (
-            BufferedReader reader = new BufferedReader(new StringReader(fileContent));
-            FileWriter writer = new FileWriter(file)) {
-
-            // Write the uploaded file content to the file
-            String line;
-            while ((line = reader.readLine()) != null) {
-                writer.write(line);
-                writer.write(System.lineSeparator());
-            }
+        File file = new File("config_files/" + fileName);
+        file.createNewFile();
+        if (file.exists() && file.isFile()){
+            System.out.println("File exists: " + file.getAbsolutePath());
+        }else{
+            System.out.println("File does not exist: " + file.getAbsolutePath());
         }
+        BufferedReader reader = new BufferedReader(new StringReader(fileContent));
+        FileWriter writer = new FileWriter(file);
+
+        // Write the uploaded file content to the file
+        String line;
+        while ((line = reader.readLine()) != null) {
+            writer.write(line);
+            writer.write(System.lineSeparator());
+        }
+        writer.close();
 
         // Load the configuration and create the graph
         GenericConfig config = new GenericConfig();
-        config.setConfFile("uploaded_files/" + fileName);
+        config.setConfFile("config_files/" + fileName);
         config.create();
         Graph graph = new Graph();
         graph.createFromTopics();

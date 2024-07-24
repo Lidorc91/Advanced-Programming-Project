@@ -52,30 +52,26 @@ public class RequestParser {
 	  			parameters.put(keyValue[0], keyValue[1]);
 	  		}			
 		}
-    
-		//Find Content Length to find the content starting index
-       int contentLength = -1;
-       int contentIndex = -1;
-        for (String line : requestLine) {
+        int lastLineIndex = 0;
+        int contentLength = 0;
+        for (int i = 0; i < requestLine.size() - 1; i++ ) {
+            String line = requestLine.get(i);
             if (line.startsWith("Content-Length:")) {
                 String[] parts = line.split(":");
                 if (parts.length > 1) {
                     try {
                         contentLength = Integer.parseInt(parts[1].trim());
-                    } catch (NumberFormatException e) {
-                        
-                    }
+                    } catch (NumberFormatException e) {}
                 }
             }
-            if (line.isEmpty()) {
-                contentIndex = requestLine.indexOf(line);
-                contentIndex++;
-                break;
-            }
+            //catching content-length
+            if (line.isEmpty()) 
+                lastLineIndex = i;
         }
+        
+        //file name exraction
         Pattern filenamePattern = Pattern.compile("filename=\"([^\"]+)\"");
-        //Get the file name if there is one
-        for (int i = contentIndex; i < requestLine.size(); i++) {
+        for (int i = 0; i < lastLineIndex; i++) {
             Matcher matcher = filenamePattern.matcher(requestLine.get(i));
             if (matcher.find()) {
                 String filename = matcher.group(1); // extracts the filename
@@ -85,18 +81,19 @@ public class RequestParser {
             }
         }
 
-		// Parse Content
+        //content extraction
         byte[] content;
 		StringBuilder contentBuilder = new StringBuilder();
+        int contentIndex = lastLineIndex+1;
         int remainingBytes = contentLength;
-        while (remainingBytes > 0 && contentIndex < requestLine.size()) {
-            String line = requestLine.get(contentIndex);
-            int bytesRead = Math.min(remainingBytes, line.length());
-            contentBuilder.append(line.substring(0, bytesRead));
+        while (contentIndex < requestLine.size()-1) {
+            String contentLine = requestLine.get(contentIndex);
+            int bytesRead = Math.min(remainingBytes, contentLine.length());
+            contentBuilder.append(contentLine.substring(0, bytesRead));
+            contentBuilder.append("\n");
             contentIndex++;
             remainingBytes -= bytesRead;
         }
-
         content = contentBuilder.toString().getBytes();
 
         //Close the reader
@@ -105,6 +102,8 @@ public class RequestParser {
         //Create the RequestInfo
         return new RequestInfo(httpCommand, uri, uriSegmentsParsed, parameters, content);
     }
+        
+
 	
 	// RequestInfo given internal class
     public static class RequestInfo {
