@@ -67,6 +67,10 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     	 while (running) {
          	try {
 					Socket client = _serverSocket.accept();
+					System.out.println("New request received from " + client.getInetAddress().getHostAddress());
+					System.out.println("_servletsGet " + _servletsGet);
+					System.out.println("_servletsPost " + _servletsPost);
+					System.out.println("_servletsDelete " + _servletsDelete);
 					_executorService.execute(new MyHTTPRequest(client, _servletsGet,_servletsPost,_servletsDelete)); 
 				} catch (IOException e) {
 					
@@ -124,18 +128,21 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 
 				switch (parser.getHttpCommand()) {
 				case ("GET"): 
+					System.err.println("in GET");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsGet);
                     if(servlet != null){
                         servlet.handle(parser, clientOutput);
                     }
 					break;
 				case ("POST"): 
+					System.err.println("in POST");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsPost);
 	                if(servlet != null){
 	                    servlet.handle(parser,clientOutput);
 	                }
 					break;				
 				case ("DELETE"): 
+					System.err.println("in DELETE");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsDelete);
 	                if(servlet != null){
 	                    servlet.handle(parser,clientOutput);

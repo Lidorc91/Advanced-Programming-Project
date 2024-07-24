@@ -5,6 +5,7 @@ import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
 import java.util.ArrayList;
 
+
 public class Graph extends ArrayList<Node>{
 	
 	public Graph() {

@@ -1,18 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles.css" />
     <title>Frames Example</title>
-</head>
-<body>
-    <!-- Left frame for from.html -->
-    <iframe src="from.html" width="30%" height="100%" style="float: left;"></iframe>
-
-    <!-- Center frame for temp.html (graph view) -->
-    <iframe src="temp.html" width="40%" height="100%" style="margin: 0 auto; display: block;"></iframe>
-
-    <!-- Right frame for temp.html (value table view) -->
-    <iframe src="temp.html" width="30%" height="100%" style="float: right;"></iframe>
-</body>
+  </head>
+  <body>
+    <div id="frame_container">
+      <iframe src="form.html" class="iframe-left"></iframe>
+      <iframe src="graph.html" class="iframe-center"></iframe>
+      <iframe src="temp.html" class="iframe-right"></iframe>
+    </div>
+  </body>
 </html>

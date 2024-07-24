@@ -1,10 +1,15 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import server.RequestParser.RequestInfo;
 
 public class RequestParser {
 
@@ -15,7 +20,7 @@ public class RequestParser {
         while ((reader.ready())) {
             requestLine.add(reader.readLine());
         }
-
+        System.out.println("requestLine: " + requestLine);
         //Split the Command and URI Line
         String httpCommand = requestLine.get(0).split(" ")[0];
         String uri = requestLine.get(0).split(" ")[1];
@@ -49,42 +54,56 @@ public class RequestParser {
 		}
     
 		//Find Content Length to find the content starting index
-        int contentIndex = 0;
-        for (int i = 1; i < requestLine.size(); i++) {
-			if (requestLine.get(i).startsWith("Content-Length")) {
-				contentIndex = i;
-				break;
-			}
-            contentIndex++;            
+       int contentLength = -1;
+       int contentIndex = -1;
+        for (String line : requestLine) {
+            if (line.startsWith("Content-Length:")) {
+                String[] parts = line.split(":");
+                if (parts.length > 1) {
+                    try {
+                        contentLength = Integer.parseInt(parts[1].trim());
+                    } catch (NumberFormatException e) {
+                        
+                    }
+                }
+            }
+            if (line.isEmpty()) {
+                contentIndex = requestLine.indexOf(line);
+                contentIndex++;
+                break;
+            }
         }
-        
-        //No content case
-        if(contentIndex == requestLine.size()-1){
-            return new RequestInfo(httpCommand, uri, uriSegmentsParsed, null, null);
-        }
-
-        contentIndex = contentIndex + 2; //Move index to content
+        Pattern filenamePattern = Pattern.compile("filename=\"([^\"]+)\"");
         //Get the file name if there is one
-        if(requestLine.get(contentIndex).contains("filename=")) {
-        	String[] fileParamater = requestLine.get(contentIndex).split("=");
-    		parameters.put(fileParamater[0], fileParamater[1]);
-    		contentIndex = contentIndex + 2;
-		}
-
-		//Parse Content
-		byte[] content;
-		StringBuilder contentBuilder = new StringBuilder();
-        while (!requestLine.get(contentIndex).equals("")) {
-        	contentBuilder.append(requestLine.get(contentIndex)).append("\n");
-            contentIndex++;
+        for (int i = contentIndex; i < requestLine.size(); i++) {
+            Matcher matcher = filenamePattern.matcher(requestLine.get(i));
+            if (matcher.find()) {
+                String filename = matcher.group(1); // extracts the filename
+                parameters.put("filename", filename);
+                System.out.println(filename); // prints "testing.json"
+                break;
+            }
         }
-		content = contentBuilder.toString().getBytes();
-		
-		//Close the reader
+
+		// Parse Content
+        byte[] content;
+		StringBuilder contentBuilder = new StringBuilder();
+        int remainingBytes = contentLength;
+        while (remainingBytes > 0 && contentIndex < requestLine.size()) {
+            String line = requestLine.get(contentIndex);
+            int bytesRead = Math.min(remainingBytes, line.length());
+            contentBuilder.append(line.substring(0, bytesRead));
+            contentIndex++;
+            remainingBytes -= bytesRead;
+        }
+
+        content = contentBuilder.toString().getBytes();
+
+        //Close the reader
         reader.close();
 
-		//Create the RequestInfo
-		return new RequestInfo(httpCommand, uri, uriSegmentsParsed, parameters, content);
+        //Create the RequestInfo
+        return new RequestInfo(httpCommand, uri, uriSegmentsParsed, parameters, content);
     }
 	
 	// RequestInfo given internal class
