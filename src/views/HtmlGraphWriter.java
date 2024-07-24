@@ -1,31 +1,47 @@
 package views;
 
-import java.io.*;
-import java.util.*;
 import configs.Graph;
 import configs.Node;
+import java.io.*;
+import java.util.*;
 
 public class HtmlGraphWriter {
     public static ArrayList<String> getGraphHTML(Graph graph) throws IOException {
         ArrayList<String> htmlContent = new ArrayList<>();
 
-        // Load the static HTML template
-        InputStream inputStream = HtmlGraphWriter.class.getResourceAsStream("/graph.html");
-        byte[] buffer = new byte[inputStream.available()];
-        inputStream.read(buffer);
-        String htmlTemplate = new String(buffer);
+		File file = new File("html_files/graph.html");
+		StringBuilder htmlTemplateBuilder = new StringBuilder();
 
-        // Replace placeholders with graph data
-        htmlTemplate = htmlTemplate.replace("${graphNodes}", getGraphNodesHTML(graph));
-        htmlTemplate = htmlTemplate.replace("${graphLinks}", getGraphLinksHTML(graph));
+		try (BufferedReader buffer = new BufferedReader(new FileReader(file))) {
+			String line;
+			while ((line = buffer.readLine()) != null) {
+				htmlTemplateBuilder.append(line).append("\n");
+			}
+		} catch (IOException e) {
+			// Handle the exception, e.g., log the error or throw a custom exception
+			System.err.println("Error reading file: " + e.getMessage());
+		}
 
-        // Split the HTML into a list of strings
-        String[] htmlLines = htmlTemplate.split("\n");
-        for (String line : htmlLines) {
-            htmlContent.add(line);
-        }
+		String htmlTemplate = htmlTemplateBuilder.toString();
 
-        return htmlContent;
+		// Replace placeholders with graph data
+		htmlTemplate = htmlTemplate.replace("graphNodes", getGraphNodesHTML(graph));
+		htmlTemplate = htmlTemplate.replace("graphLinks", getGraphLinksHTML(graph));
+
+		// Split the HTML into a list of strings
+		String[] htmlLines = htmlTemplate.split("\n");
+		
+		for (String line : htmlLines) {
+			htmlContent.add(line);
+		}
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
+			for (String line : htmlContent) {
+				writer.write(line);
+				writer.newLine(); // add a newline character after each line
+			}
+		}
+
+	return htmlContent;
     }
 
     private static String getGraphNodesHTML(Graph graph) {

@@ -1,5 +1,4 @@
-// Example of a function to generate a directed graph using D3.js
-function generateGraph(graphConfig) {
+document.addEventListener("DOMContentLoaded", () => {
   const nodes = graphConfig.nodes;
   const links = graphConfig.links;
 
@@ -68,41 +67,39 @@ function generateGraph(graphConfig) {
         .on("end", dragended)
     );
 
-  // Add circles for agents
+  // Add circles for agents with color and size
   node
-    .filter((d) => d.type === "agent")
+    .filter((d) => d.type === "Agent")
     .append("circle")
-    .attr("r", 20);
+    .attr("r", 25) // Size of circles
+    .attr("fill", "lightblue"); // Color for circles
 
-  // Add rectangles for topics
+  // Add rectangles for topics with color and size
   node
-    .filter((d) => d.type === "topic")
+    .filter((d) => d.type === "Topic")
     .append("rect")
-    .attr("width", 60)
-    .attr("height", 30)
-    .attr("rx", 5) // Rounded corners
-    .attr("ry", 5);
+    .attr("width", 80) // Size of rectangles
+    .attr("height", 40) // Size of rectangles
+    .attr("rx", 10) // Rounded corners
+    .attr("ry", 10)
+    .attr("fill", "lightgreen"); // Color for rectangles
 
   // Add labels to nodes
   node
     .append("text")
-    .text((d) => d.id)
+    .text((d) => d.id.slice(1))
     .attr("text-anchor", "middle")
     .attr("dominant-baseline", "middle")
-    .style("font-size", (d) => (d.type === "agent" ? "12px" : "14px")) // Adjust font size based on node type
+    .style("font-size", "10px") // Font size for text
     .each(function (d) {
-      // Calculate text width and height
-      const textWidth = this.getComputedTextLength();
-      const textHeight = parseFloat(d3.select(this).style("font-size"));
-
       // Position text based on node type
-      if (d.type === "agent") {
+      if (d.type === "Agent") {
         // For circles (agents), position text at the center
-        d3.select(this).attr("transform", `translate(0, ${textHeight / 2})`);
-      } else if (d.type === "topic") {
+        d3.select(this).attr("transform", `translate(0, 0)`);
+      } else if (d.type === "Topic") {
         // For rectangles (topics), position text inside the rectangle
-        const rectWidth = 60; // Adjust according to your rectangle width
-        const rectHeight = 30; // Adjust according to your rectangle height
+        const rectWidth = 80; // Adjust according to your rectangle width
+        const rectHeight = 40; // Adjust according to your rectangle height
         d3.select(this).attr(
           "transform",
           `translate(${rectWidth / 2}, ${rectHeight / 2})`
@@ -130,8 +127,13 @@ function generateGraph(graphConfig) {
   }
 
   function dragged(event, d) {
-    d.fx = event.x;
-    d.fy = event.y;
+    const minX = 0;
+    const maxX = width;
+    const minY = 0;
+    const maxY = height;
+
+    d.fx = Math.max(minX, Math.min(event.x, maxX));
+    d.fy = Math.max(minY, Math.min(event.y, maxY));
   }
 
   function dragended(event, d) {
@@ -139,23 +141,4 @@ function generateGraph(graphConfig) {
     d.fx = null;
     d.fy = null;
   }
-}
-
-// Example usage:
-const graphConfig = {
-  nodes: [
-    { id: "Agent1", type: "agent" },
-    { id: "Agent2", type: "agent" },
-    { id: "Topic1", type: "topic" },
-    { id: "Topic2", type: "topic" },
-    { id: "Topic3", type: "topic" },
-  ],
-  links: [
-    { source: "Agent1", target: "Topic1" },
-    { source: "Agent1", target: "Topic2" },
-    { source: "Agent2", target: "Topic1" },
-    { source: "Agent2", target: "Topic3" },
-  ],
-};
-
-generateGraph(graphConfig);
+});

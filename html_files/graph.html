@@ -10,7 +10,21 @@
   </head>
   <body>
     <div id="graph-container"></div>
+    <script>
+      var graphConfig = {
+        nodes: [    { id: "APlusAgent", type: "Agent" },
+    { id: "TA", type: "Topic" },
+    { id: "TB", type: "Topic" },
+    { id: "AIncAgent", type: "Agent" },
+    { id: "TC", type: "Topic" },
+    { id: "TD", type: "Topic" }],
+        links: [    { source: "APlusAgent", target: "TC" },
+    { source: "TA", target: "APlusAgent" },
+    { source: "TB", target: "APlusAgent" },
+    { source: "AIncAgent", target: "TD" },
+    { source: "TC", target: "AIncAgent" }],
+      };
+    </script>
     <script src="graph.js"></script>
-    Script to generate graph
   </body>
 </html>
