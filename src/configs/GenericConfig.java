@@ -3,11 +3,12 @@ package configs;
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-
+import configs.*;
 import graph.Agent;
 import graph.ParallelAgent;
 
@@ -33,10 +34,12 @@ public class GenericConfig implements Config {
 		if(data.size() %3 != 0) {
 			return;
 		}
-		
+		PlusAgent agent = new PlusAgent(null, null);
+		String fullyQualifiedName = agent.getClass().getName();
+		System.out.println(fullyQualifiedName); // Output: configs.PlusAgent
 		for(int i = 0; i < data.size(); i+=3) { //read 3 lines per agent
 			try {
-				String className = data.get(i);
+				String className = data.get(i).replaceAll("project_biu.", "src.");
 				Class<?> agentClass = Class.forName(className);
 				Class<?>[] parameterTypes = new Class<?>[2]; 
 				parameterTypes[0] = String[].class;
@@ -49,9 +52,21 @@ public class GenericConfig implements Config {
 				Agent a = (Agent) constructor.newInstance(new Object[] { args1, args2 });
 				ParallelAgent pa = new ParallelAgent(a, 10);
 				activeAgents.add(pa);
+			} catch (ClassNotFoundException e) {
+					System.err.println("Class not found: " + e.getMessage()); // Detailed error message
+			} catch (NoSuchMethodException e) {
+				System.err.println("No such method: " + e.getMessage()); // Detailed error message
+			} catch (InstantiationException e) {
+				System.err.println("Instantiation exception: " + e.getMessage()); // Detailed error message
+			} catch (IllegalAccessException e) {
+				System.err.println("Illegal access: " + e.getMessage()); // Detailed error message
+			} catch (InvocationTargetException e) {
+				System.err.println("Invocation target exception: " + e.getMessage()); // Detailed error message
+			} catch (ClassCastException e) {
+				System.err.println("Class cast exception: " + e.getMessage()); // Detailed error message
 			} catch (Exception e) {
-				e.printStackTrace();
-			}								
+				e.printStackTrace(); // Generic exception handler
+			}							
 		}
 	}
 
