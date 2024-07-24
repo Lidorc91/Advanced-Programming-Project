@@ -1,14 +1,12 @@
 package server;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
 import server.RequestParser.RequestInfo;
 
 public class RequestParser {
@@ -95,9 +93,6 @@ public class RequestParser {
             remainingBytes -= bytesRead;
         }
         content = contentBuilder.toString().getBytes();
-
-        //Close the reader
-        reader.close();
 
         //Create the RequestInfo
         return new RequestInfo(httpCommand, uri, uriSegmentsParsed, parameters, content);
