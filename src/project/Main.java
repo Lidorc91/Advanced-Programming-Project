@@ -61,6 +61,14 @@ public class Main {
 	            }
 	    });
 
+			int theards = Thread.activeCount();
+			server.start();
+			System.out.println("server started");
+			theards = Thread.activeCount();
+			System.in.read();
+			server.close();
+			theards = Thread.activeCount();
+			System.out.println("server closed");
 	        System.out.println("done");
 	    } 
     
