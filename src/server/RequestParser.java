@@ -1,7 +1,6 @@
 package server;
 
 import java.io.BufferedReader;
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -10,8 +9,18 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import server.RequestParser.RequestInfo;
 
+/**
+ * This class implements the RequestParser which parses an HTTP request and returns a RequestInfo object containing the parsed information.
+ */
 public class RequestParser {
 
+    /**
+     * Parses an HTTP request from a BufferedReader and returns a RequestInfo object containing the parsed information.
+     *
+     * @param  reader  the BufferedReader from which to read the request
+     * @return         a RequestInfo object containing the parsed information which includes the HTTP command, URI, and parameters
+     * @throws IOException if an I/O error occurs while reading the request
+     */
     public static RequestInfo parseRequest(BufferedReader reader) throws IOException {        
 		// implement
     	//Set up and read request
@@ -36,10 +45,6 @@ public class RequestParser {
             }
         }
         
-        /* if(uriSegmentsParsed[uriSegmentsParsed.length - 1].contains(".")) {
-            uriSegmentsParsed[uriSegmentsParsed.length - 1] = uriSegmentsParsed[uriSegmentsParsed.length - 1].split("\\.")[0];
-        } */
-		
 		//Parse the Parameters 
   		Map<String, String> parameters = new HashMap<>();
 		if(uriSegmentsParsed[uriSegmentsParsed.length - 1].contains("?")) {
@@ -117,22 +122,47 @@ public class RequestParser {
             this.content = content;
         }
 
+    /**
+     * Returns the HTTP command associated with the request (e.g., GET, POST, etc.).
+     *
+     * @return the HTTP command as a string
+     */
         public String getHttpCommand() {
             return httpCommand;
         }
 
+    /**
+     * Returns the full URI of the request.
+     *
+     * @return the URI of the request as a String
+     */
         public String getUri() {
             return uri;
         }
 
+    /**
+     * Returns an array of all URI segments in the request.
+     *
+     * @return an String array of URI segments
+     */
         public String[] getUriSegments() {
             return uriSegments;
         }
 
+    /**
+     * Returns a map of the parameters in the request.
+     *
+     * @return a map of parameters
+     */
         public Map<String, String> getParameters() {
             return parameters;
         }
 
+    /**
+     * Returns the content of the request as a byte array.
+     *
+     * @return the content as a byte array
+     */
         public byte[] getContent() {
             return content;
         }

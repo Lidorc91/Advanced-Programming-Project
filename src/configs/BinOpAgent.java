@@ -7,6 +7,9 @@ import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
 import java.util.function.BinaryOperator;
 
+/**
+ * This class represents an agent that performs the binary operation.
+ */
 public class BinOpAgent implements Agent {
 	private String _name;
 	private Topic _inputTopic1;
@@ -39,6 +42,16 @@ public class BinOpAgent implements Agent {
 		this._inputTopic2 = null;		
 	}
 
+	
+	/**
+	 * This method is the callback function for handling incoming messages. It checks if the message is not NaN,
+	 * and if the topic matches either of the input topics, it updates the corresponding message value. If both
+	 * message values are not 0, it publishes the result of the binary operation to the output topic and resets
+	 * the input message values.
+	 *
+	 * @param  topic  the topic of the incoming message
+	 * @param  msg    the incoming message
+	 */
 	@Override
 	public void callback(String topic, Message msg) {
 		if(msg.asDouble == Double.NaN) {

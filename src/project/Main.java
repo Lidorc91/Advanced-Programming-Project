@@ -3,10 +3,15 @@ package project;
 
 import server.HTTPServer;
 import server.MyHTTPServer;
-import server.RequestParser.RequestInfo;
 import servlets.*;
 
 public class Main {
+	/**
+	 * The main function that starts the HTTP server and adds servlets for handling different requests.
+	 *
+	 * @param  args  the command line arguments
+	 * @throws Exception  if there is an error starting the server
+	 */
 	 public static void main(String[] args) throws Exception{
 	HTTPServer server=new MyHTTPServer(8080,5);
 	server.addServlet("GET", "/publish", new TopicDisplayer()); 

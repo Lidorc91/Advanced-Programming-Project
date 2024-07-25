@@ -12,6 +12,11 @@ import configs.*;
 import graph.Agent;
 import graph.ParallelAgent;
 
+
+/**
+ * This class represents a configuration of the computational graph. 
+ * it allows to create an instance of the computational graph from a configuration file.
+ */
 public class GenericConfig implements Config {
 	private ArrayList<ParallelAgent> activeAgents;
 	private String _confFilePath;
@@ -21,6 +26,22 @@ public class GenericConfig implements Config {
 		_confFilePath = "";
 	}
 	
+	/**
+	 * Creates a computational graph based on the configuration file.
+	 * Reads each line of the file and creates agents based on the data.
+	 * Each agent is created using the constructor of its corresponding class. (using wildcards)
+	 * The agent's arguments are decoded from data.
+	 * The agents are added to the activeAgents ArrayList.
+	 * 
+	 * @return  void
+	 * @throws ClassNotFoundException  if the class of the agent is not found
+	 * @throws NoSuchMethodException  if the constructor of the agent class is not found
+	 * @throws InstantiationException  if an instance of the agent class cannot be created
+	 * @throws IllegalAccessException  if access to the agent class is illegal
+	 * @throws InvocationTargetException  if the agent constructor cannot be invoked
+	 * @throws ClassCastException  if the agent cannot be cast to the expected type
+	 * @throws IOException  if an error occurs while reading the file
+	 */
 	public void create() {
 		ArrayList<String> data = new ArrayList<>();	
 		Path filePath = Paths.get(_confFilePath);
@@ -69,48 +90,61 @@ public class GenericConfig implements Config {
 		}
 	}
 
-	
-
+    /**
+     * Returns the name of the current configuration.
+     *
+     * @return the name of the configuration
+     */
 	public String getName() {
 		return "Generic Config";
 	}
 
+	/**
+	 * Returns the version of the current configuration.
+	 *
+	 * @return an integer representing the version of the configuration
+	 */
 	public int getVersion() {
 		return 0;
 	}
 
+	/**
+	 * Closes all the active agents.
+	 *
+	 * This method iterates over each agent in the activeAgents list and calls the close() method on each parallel agent.
+	 * This ensures that all the resources used by the agents are properly released.
+	 */
 	public void close() {
 		for(ParallelAgent a : activeAgents) {
 			a.close();
 		}		
 	}
 	
+	/**
+	 * Sets the file path for the configuration file.
+	 *
+	 * @param  filePath  the path to the configuration file
+	 */
 	public void setConfFile(String filePath) {
-		// String projectPath = "src/test/";
-
-		// Checks config file in the project folder
-		// if(!validPath(projectPath+filePath)) {
-		// 	return;
-		// }
 		_confFilePath = filePath;
 	}
 	
-	
 	// Assisting Methods 
-	
-	private boolean validPath(String filePath) {
-		File file = new File(filePath,"");
-		 if (file.exists()) 
-		 {
-			 return true;
-		 }
-		return false;
-	}
-	
+		
+	/**
+	 * Adds a ParallelAgent to the list of active agents.
+	 *
+	 * @param  a  the ParallelAgent to be added
+	 */
 	public void addAgent(ParallelAgent a) {
 		activeAgents.add(a);
 	}
 	
+	/**
+	 * Removes a ParallelAgent from the list of active agents.
+	 *
+	 * @param  a  the ParallelAgent to be removed
+	 */
 	public void removeAgent(ParallelAgent a) {
 		activeAgents.remove(a);
 	}

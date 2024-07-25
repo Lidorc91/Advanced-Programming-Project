@@ -1,17 +1,26 @@
 package servlets;
-import views.HtmlGraphWriter;
-
-import java.io.*;
-import java.lang.reflect.InvocationTargetException;
-import java.net.Socket;
-import java.util.*;
-
 import configs.GenericConfig;
 import configs.Graph;
+import java.io.*;
+import java.util.*;
 import server.RequestParser.RequestInfo;
+import views.HtmlGraphWriter;
 
+/**
+ * This class implements the ConfLoader which handles requests for loading configurations and generates 
+ * the HTML representation of the graph based on the loaded configurations.
+ */
 public class ConfLoader implements Servlet{
 
+    /**
+     * Handles the incoming request by processing the HTTP parameters, creating a file with the uploaded content,
+     * loading the configuration and creating a graph, generating HTML for the computational graph, and sending
+     * the HTML response back to the client.
+     *
+     * @param  requestInfo  the request information containing the HTTP parameters and content
+     * @param  toClient     the output stream to send the response back to the client
+     * @throws IOException  if there is an error reading or writing to the file or the output stream
+     */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         Map<String, String> httpParameters = requestInfo.getParameters();
@@ -73,6 +82,13 @@ public class ConfLoader implements Servlet{
     }
     
 
+    /**
+     * Generates an HTML representation of the given graph and returns it as a string.
+     *
+     * @param  graph  the graph to be converted to HTML
+     * @return        an HTML string representing the graph, or an error message if no graph data is available
+     * @throws IOException if there is an error generating the HTML
+     */
     private String generateGraphHtml(Graph graph) throws IOException {
         ArrayList<String> htmlGraphStrings= new ArrayList<>();
         htmlGraphStrings = HtmlGraphWriter.getGraphHTML(graph);
@@ -85,6 +101,7 @@ public class ConfLoader implements Servlet{
 
     @Override
     public void close() throws IOException {
+        // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'close'");
     }
 }

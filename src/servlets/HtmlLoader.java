@@ -5,9 +5,10 @@ import java.io.OutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-
 import server.RequestParser.RequestInfo;
-
+/**
+ * This class handles the incoming requests for main application and sends the HTML file to the client.
+ */
 public class HtmlLoader implements Servlet {
 
     private String htmlRootDir;
@@ -16,6 +17,15 @@ public class HtmlLoader implements Servlet {
         this.htmlRootDir = htmlRootDir;
     }
 
+    /**
+     * Handles an HTTP request by extracting the HTML filename from the URI, checking if the file exists,
+     * reading the file content, sending the HTTP response headers, sending the file content, and flushing the
+     * OutputStream to ensure all content is sent.
+     *
+     * @param  requestInfo  the RequestInfo object containing information about the HTTP request
+     * @param  toClient     the OutputStream to write the HTTP response to
+     * @throws IOException  if an I/O error occurs while reading the file or writing to the OutputStream
+     */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         // Extract the HTML filename from the URI
@@ -54,9 +64,17 @@ public class HtmlLoader implements Servlet {
 
     @Override
     public void close() throws IOException {
+        // TODO Auto-generated method stub
         // No resources to close
     }
 
+    /**
+     * Sends an error response to the client for an Invalid URL.
+     *
+     * @param  toClient    the output stream to write the error response to
+     * @param  errorMessage   the error message to include in the response
+     * @throws IOException if an I/O error occurs while writing the response
+     */
     private void sendErrorResponse(OutputStream toClient, String errorMessage) throws IOException {
         String response = "<html><body><h2>" + errorMessage + "</h2></body></html>";
         byte[] responseBytes = response.getBytes();
