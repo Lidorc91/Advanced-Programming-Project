@@ -1,4 +1,4 @@
-# Computational Graph Implemantion with Subscriber/Publisher model
+# Computational Graph Implemantion with a Subscriber/Publisher model
 
 This project showcases the implementation of an HTTP server which hosts a computational graph using Java. 
 
