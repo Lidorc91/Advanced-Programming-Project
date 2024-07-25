@@ -34,12 +34,6 @@ public class HtmlGraphWriter {
 		for (String line : htmlLines) {
 			htmlContent.add(line);
 		}
-		try (BufferedWriter writer = new BufferedWriter(new FileWriter(file))) {
-			for (String line : htmlContent) {
-				writer.write(line);
-				writer.newLine(); // add a newline character after each line
-			}
-		}
 
 	return htmlContent;
     }

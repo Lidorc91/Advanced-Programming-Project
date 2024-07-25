@@ -15,6 +15,7 @@
           action="http://localhost:8080/upload"
           method="post"
           enctype="multipart/form-data"
+          target="graph-iframe"
         >
           <h2>Upload Configuration File</h2>
           <label for="configFile">Choose a configuration file:</label>
@@ -33,6 +34,7 @@
           id="messageForm"
           action="http://localhost:8080/publish"
           method="get"
+          target="response-iframe"
         >
           <h2>Send Message to Topic</h2>
           <label for="topic">Topic:</label>
@@ -54,31 +56,10 @@
             required
           ></textarea>
           <br />
-          <button type="submit">Send Message</button>
+          <button id="submit">Send Message</button>
         </form>
-
-        <!-- Placeholder for additional forms -->
-        <!-- Add more forms as needed for remote machine operations -->
-      </div>
-      <!-- Table to display output for message sent to topic -->
-      <div class="form_container">
-        <h2>Messages Sent to Topic</h2>
-        <table id="messageTable">
-          <thead>
-            <tr>
-              <th>Topic</th>
-              <th>Message</th>
-            </tr>
-          </thead>
-          <tbody>
-            <!-- Data will be dynamically populated here -->
-          </tbody>
-        </table>
       </div>
     </div>
-    <!-- Scripts for handling form submissions and displaying results -->
-    <script>
-      // JavaScript code can be added here to handle form submissions and update the table dynamically
-    </script>
+    <script type="module" src="form.js"></script>
   </body>
 </html>
