@@ -63,11 +63,11 @@ To get started with the Computational Graph project:
    cd src/project
    ```
 
-2. **Build and Run**: Ensure you have Java Development Kit (JDK) installed. Compile and run the project using your IDE or command line tools.
+2. **Build and Run**: Ensure you have Java Development Kit (JDK) installed. Compile and run the project using your IDE of choice or using command line tools.
 
-3. **Explore**: Review the code in each directory (`configs`, `graph`, `server`, `servlets`) to understand how agents, configurations, and the HTTP server are implemented. (refer to program flow above for general understanding)
+3. **Explore**: Review the code in each directory to understand how it all works. (refer to program flow above for general understanding)
 
-4. **Test**: Use HTTP clients like Postman or curl to test the server with various HTTP requests (`GET`, `POST`, `DELETE`) against different servlet endpoints.
+4. **Test**: Use an HTTP client such as Postmanfor testing different servlet endpoints using different HTTP requests to see intended functionality
 
 ## Usage Example : Running the HTTP Server
 In the `Main.java` file, you can add different servelets to handle different requests for different URIs. you could also change the port number and the number of thread in the thread pool. code example: (fill in data inside <>)
