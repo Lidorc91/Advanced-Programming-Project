@@ -1,4 +1,4 @@
-# Computational Graph Project with Subcriber/Publisher model
+# Computational Graph Project with Subscriber/Publisher model
 
 This project showcases the implementation of an HTTP server which hosts a computational graph using Java. 
 
@@ -69,14 +69,13 @@ To get started with the Computational Graph project:
 
 4. **Test**: Use HTTP clients like Postman or curl to test the server with various HTTP requests (`GET`, `POST`, `DELETE`) against different servlet endpoints.
 
-## Usage Examples
-##TODO
-### Example 1: Running the HTTP Server
-
-
-
-### Example 2: Handling GET Request with CalculateServlet
-
+## Usage Example : Running the HTTP Server
+In the `Main.java` file, you can add different servelets to handle different requests for different URIs. you could also change the port number and the number of thread in the thread pool. code example: (fill in data inside <>)
+```java
+MyHTTPServer server = new MyHTTPServer(<Port number>>, < Number of Threads>); // Port 8080, 10 threads
+server.addServlet("GET", "/<new URI> ", new <Servlet Name>());
+server.start();
+```
 
 ## Dependencies
 
