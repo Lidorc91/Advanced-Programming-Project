@@ -24,7 +24,8 @@ public class RequestParser {
     public static RequestInfo parseRequest(BufferedReader reader) throws IOException {        
 		// implement
     	//Set up and read request
-        ArrayList<String> requestLine = new ArrayList<>();        
+        ArrayList<String> requestLine = new ArrayList<>();
+        int threads = Thread.activeCount();        
         while ((reader.ready())) {
             requestLine.add(reader.readLine());
         }
