@@ -67,7 +67,4 @@ public class BinOpAgent implements Agent {
 		return _name;
 	}
 	
-	
-
-    
 }
