@@ -164,6 +164,7 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 			for(int i = 0; i < uri.length; i++){
 				//Build the concatenated URI
 				StringBuilder concatenatedUri = new StringBuilder();
+				System.out.println("Checking URI: " + concatenatedUri.toString());
 				if(uri[0].split("/").length == 0){ //Root URI
 					concatenatedUri.append("/");
 				}else{
@@ -173,9 +174,11 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 				}
 				//Check if it matches any servlet
 				if(servlets.containsKey(concatenatedUri.toString())){
+					System.out.println("Match found! Returning servlet: " + servlets.get(concatenatedUri.toString()).getClass().getSimpleName());
 					return servlets.get(concatenatedUri.toString());
 				}
-			}			
+			}	
+			System.out.println("No match found. Returning null.");		
 			return null;
 		}
 	}

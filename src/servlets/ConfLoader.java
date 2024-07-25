@@ -60,6 +60,7 @@ public class ConfLoader implements Servlet{
         // Combine the HTTP response and the response body
         String fullResponse = httpResponse + responseBody;
     
+        System.out.println("full response from server: " + fullResponse);
         // Combine the HTTP response and the response body
         toClient.write(fullResponse.getBytes("UTF-8"));
 
