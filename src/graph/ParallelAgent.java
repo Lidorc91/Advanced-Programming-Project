@@ -3,6 +3,9 @@ package graph;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
+/**
+ * This class represents an agent that runs in parallel with other agents using the decorator design pattern.
+ */
 public class ParallelAgent implements Agent {
 	private final BlockingQueue<MessageforQueue> _queue;
     private final Agent _agent;
@@ -23,14 +26,29 @@ public class ParallelAgent implements Agent {
 		_runningThread.start();
 	}
 
+	/**
+	 * Returns the name of the agent.
+	 *
+	 * @return the name of the agent
+	 */
 	public String getName() {
 		return _agent.getName();
 	}
 
+	/**
+	 * Resets the parallel agent by calling the reset method of the internal agent.
+	 */
 	public void reset() {
 		_agent.reset();
 	}
 
+	/**
+	 * Adds a new message to the queue for processing by the internal agent. the Message includes the topic and the message.
+	 *
+	 * @param  topic  the topic of the message
+	 * @param  msg    the message to be processed
+	 * @throws InterruptedException if the thread is interrupted while waiting to add the message to the queue
+	 */
 	public void callback(String topic, Message msg) {
 		try {	
 			_queue.put(new MessageforQueue(topic, msg));
@@ -38,6 +56,9 @@ public class ParallelAgent implements Agent {
 		}		
 	}
 
+	/**
+	 * Closes the parallel agent by interrupting its running thread and closing the internal agent.
+	 */
 	public void close() {
 		_runningThread.interrupt();
 		_agent.close();
@@ -50,9 +71,20 @@ public class ParallelAgent implements Agent {
 			this._topic = topic;
 			this._msg = msg;
 		}
+		/**
+		 * Returns the topic from the MessageQueue object.
+		 *
+		 * @return the topic of the message
+		 */
 		private String getTopic() {
 			return _topic;
 		}
+		
+		/**
+		 * Returns the message stored in the MessageQueue object.
+		 *
+		 * @return the message stored in the object
+		 */
 		private Message getMessage() {
 			return _msg;
 		}

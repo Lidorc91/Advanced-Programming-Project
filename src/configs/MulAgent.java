@@ -6,6 +6,10 @@ import graph.Topic;
 import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
 
+/**
+ * This class represents an agent that performs the multiplication operation.
+ * For methods without a javadoc please see {@link graph.Agent}
+ */
 public class MulAgent implements Agent {
 	TopicManager _tm;
 	private Topic _inputTopic1;
@@ -33,12 +37,26 @@ public class MulAgent implements Agent {
     	return "PlusAgent";
     }
 
+	/**
+     * Resets the state of the PlusAgent by resetting its initial values. (sets the values of _x and _y to 0)
+     *
+     * @return         	None
+     */
     @Override
     public void reset() {
         _x=0;
 		_y=0;
     }
 
+	/**
+	 * This method is called when a message is received by the MulAgent. It checks if the message is valid
+	 * (not NaN), and if so, it updates the internal state of the MulAgent based on the topic of the message.
+	 * If both inputs have been received, it calculates the product of the inputs and publishes the result to the
+	 * output topic. Finally, it resets the internal state of the MulAgent.
+	 *
+	 * @param  topic  the topic of the received message
+	 * @param  msg    the received message (number)
+	 */
     @Override
     public void callback(String topic, Message msg) {
     	if(msg.asDouble == Double.NaN) {

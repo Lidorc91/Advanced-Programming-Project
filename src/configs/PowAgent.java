@@ -6,6 +6,10 @@ import graph.Topic;
 import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
 
+/**
+ * This class represents an agent that performs the power operation.
+ * For methods without a javadoc please see {@link graph.Agent}
+ */
 public class PowAgent implements Agent{
 	TopicManager _tm;
 	private Topic _inputTopic;
@@ -19,16 +23,25 @@ public class PowAgent implements Agent{
 		_outputTopic = _tm.getTopic(pubs[0]);
     }
 
+    
 	@Override
 	public String getName() {		
 		return "IncAgent";
 	}
 
+	
 	@Override
 	public void reset() {
 		
 	}
 
+	
+	/**
+	 * Callback method that is called when a new message is received and return the power of the message (assuming it is a double)
+	 *
+	 * @param  topic   the topic of the message
+	 * @param  msg     the message received
+	 */
 	@Override
 	public void callback(String topic, Message msg) {
         if(_inputTopic.name.equals(topic)) {
@@ -40,6 +53,7 @@ public class PowAgent implements Agent{
 		}
 	}
 
+    
 	@Override
 	public void close() {
 		
