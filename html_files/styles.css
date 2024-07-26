@@ -1,4 +1,3 @@
-/* Container to hold the iframes */
 html,
 body {
   overflow: hidden; /* Hide scrollbars */
@@ -86,6 +85,13 @@ form input[type="file"],
 form input[type="submit"],
 form button {
   margin-top: 10px;
+}
+
+#topic,
+#message {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 table {

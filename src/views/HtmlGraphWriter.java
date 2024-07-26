@@ -25,8 +25,8 @@ public class HtmlGraphWriter {
 		String htmlTemplate = htmlTemplateBuilder.toString();
 
 		// Replace placeholders with graph data
-		htmlTemplate = htmlTemplate.replace("graphNodes", getGraphNodesHTML(graph));
-		htmlTemplate = htmlTemplate.replace("graphLinks", getGraphLinksHTML(graph));
+		htmlTemplate = htmlTemplate.replace("nodes: []", getGraphNodesHTML(graph));
+		htmlTemplate = htmlTemplate.replace("links: []", getGraphLinksHTML(graph));
 
 		// Split the HTML into a list of strings
 		String[] htmlLines = htmlTemplate.split("\n");
@@ -51,7 +51,7 @@ public class HtmlGraphWriter {
 			nodesHTML.append(",\n");
 		}
 		nodesHTML.delete(nodesHTML.length() - 2, nodesHTML.length()); // remove trailing comma and newline
-		return "[" + nodesHTML.toString() + "]";
+		return "nodes: [" + nodesHTML.toString() + "]";
 	}
 	
 	private static String getGraphLinksHTML(Graph graph) {
@@ -63,6 +63,6 @@ public class HtmlGraphWriter {
 			}
 		}
 		linksHTML.delete(linksHTML.length() - 2, linksHTML.length()); // remove trailing comma and newline
-		return "[" + linksHTML.toString() + "]";
+		return "links: [" + linksHTML.toString() + "]";
 	}
 }

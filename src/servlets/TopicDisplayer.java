@@ -49,8 +49,8 @@ public class TopicDisplayer implements Servlet{
         response.append("</html>");
 
         // Convert the response to bytes
-        byte[] responseBytes = response.toString().getBytes("UTF-8");
-    
+       byte[] responseBytes = response.toString().getBytes("UTF-8");
+
         // Send the HTTP response headers
         toClient.write("HTTP/1.1 200 OK\r\n".getBytes("UTF-8"));
         toClient.write("Content-Type: text/html\r\n".getBytes("UTF-8"));
