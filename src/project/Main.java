@@ -19,6 +19,8 @@ public class Main {
 	server.addServlet("GET", "/app/", new HtmlLoader("html_files"));
 	server.start();
 	System.in.read();
+	System.out.println("Active threads: " + Thread.activeCount());
+	System.in.read();
 	server.close();
 	System.out.println("done"); 
 	}

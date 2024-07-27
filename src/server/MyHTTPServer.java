@@ -92,9 +92,6 @@ public class MyHTTPServer extends Thread implements HTTPServer{
          	try {
 					Socket client = _serverSocket.accept();
 					System.out.println("New request received from " + client.getInetAddress().getHostAddress());
-					System.out.println("_servletsGet " + _servletsGet);
-					System.out.println("_servletsPost " + _servletsPost);
-					System.out.println("_servletsDelete " + _servletsDelete);
 					_executorService.execute(new MyHTTPRequest(client, _servletsGet,_servletsPost,_servletsDelete)); 
 				} catch (IOException e) {
 					
@@ -165,9 +162,11 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 		@Override
 		public void run() {
 			RequestInfo parser;
+			BufferedReader _clientReader = null;
+			OutputStream _clientOutput = null;
 			try {
-				BufferedReader _clientReader = new BufferedReader(new InputStreamReader(_client.getInputStream()));
-				OutputStream clientOutput = _client.getOutputStream();
+				_clientReader = new BufferedReader(new InputStreamReader(_client.getInputStream()));
+				_clientOutput = _client.getOutputStream();
 				parser = RequestParser.parseRequest(_clientReader);
 				Servlet servlet;
 
@@ -176,37 +175,48 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 					System.err.println("in GET");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsGet);
                     if(servlet != null){
-                        servlet.handle(parser, clientOutput);
+                        servlet.handle(parser, _clientOutput);
                     }
 					break;
 				case ("POST"): 
 					System.err.println("in POST");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsPost);
 	                if(servlet != null){
-	                    servlet.handle(parser,clientOutput);
+	                    servlet.handle(parser,_clientOutput);
 	                }
 					break;				
 				case ("DELETE"): 
 					System.err.println("in DELETE");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsDelete);
 	                if(servlet != null){
-	                    servlet.handle(parser,clientOutput);
+	                    servlet.handle(parser,_clientOutput);
 	                }
 					break;    
 				default: 
 					break;
-			}
-				_clientReader.close();
-				clientOutput.close();
-				_client.close();	
+			}	
 			} catch (IOException e) {
 				
+			} finally{
+				try {
+					if (_clientReader != null) {
+						_clientReader.close();
+					}
+					if (_clientOutput != null) {
+						_clientOutput.close();
+					}
+					if (_client != null) {
+						_client.close();
+					}
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 			
 		}
 		
 	/**
-	 * An assistant method that finds the longest match of a given URI in a map of servlets.
+	 * An assistant method that finds the longest match of a given URI in a map of servlets so it will know which servlet to call.
 	 *
 	 * @param  uri        the URI to search for a match
 	 * @param  servlets  the map of servlets to search in
@@ -217,19 +227,31 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 			for(int i = 0; i < uri.length; i++){
 				//Build the concatenated URI
 				StringBuilder concatenatedUri = new StringBuilder();
-				if(uri[0].split("/").length == 0){ //Root URI
+				//concatenatedUri.append("/");
+				if(uri[uri.length-1].contains(".") && i ==0){//Check if it is a file
+					continue;					
+				}
+				for(int j = 0; j < uri.length-i; j++){
+					concatenatedUri.append("/").append(uri[j]);
+				}
+				if(i>0 || (i==0 && uri.length == 1 && uri[0].equals("app"))){
+					concatenatedUri.append("/");
+				}
+				/* if(uri[0].split("/").length == 0){ //Root URI
 					concatenatedUri.append("/");
 				}else{
 					for(int j = 0; j < uri.length-i; j++){
 						concatenatedUri.append("/").append(uri[j]);
 					}
-				}
+				} */
 
-				if(uri.length == 1 && !uri[0].equals("/") ){ 
+
+				/* if(i != 0 && !uri[0].equals("/") ){ 
 					concatenatedUri.append("/");
-				}
+				} */
 				System.out.println("Concatenated URI: " + concatenatedUri.toString());
 				//Check if it matches any servlet
+				
 				if(servlets.containsKey(concatenatedUri.toString())){
 					System.out.println("Match found! Returning servlet: " + servlets.get(concatenatedUri.toString()).getClass().getSimpleName());
 					return servlets.get(concatenatedUri.toString());

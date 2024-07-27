@@ -1,5 +1,6 @@
 package servlets;
 import graph.*;
+import graph.TopicManagerSingleton.TopicManager;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.util.HashMap;
@@ -24,11 +25,17 @@ public class TopicDisplayer implements Servlet{
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         // Generate the HTML response        
         String topic = requestInfo.getParameters().get("topic");
-        String message = requestInfo.getParameters().get("message");        
+        String message = requestInfo.getParameters().get("message");
+        TopicManager tm = TopicManagerSingleton.get();       
         if (topic != null && message != null) {
-            _topicsTable.put(topic, message);
             Message msg = new Message(message);
-            TopicManagerSingleton.get().getTopic(topic).publish(msg);
+            //TODO - Check if I should only be able to send messages to topics that are being subscribed to (check if topic doesnt have a publisher)
+            tm.getTopics().forEach((t) -> { //Check if topic exists
+                if(t.name.equals(topic) && t.getPublishers().isEmpty()){
+                    _topicsTable.put(topic, message);
+                    tm.getTopic(topic).publish(msg);
+                }
+            });
             generateResponse(toClient);
         }else{
             toClient.write("message/topic missing".getBytes());
@@ -52,6 +59,7 @@ public class TopicDisplayer implements Servlet{
         response.append("<table border='1'>");
         response.append("<tr><th>Topic</th><th>Latest Value</th></tr>");
 
+        //TODO - FIX Table not showing result values.
         // Iterate over each currentTopic and add rows to the table
         for (var topic : TopicManagerSingleton.get().getTopics()) {
             response.append("<tr>");

@@ -77,8 +77,7 @@ public class ConfLoader implements Servlet{
             toClient.flush();
         }catch(Exception e){
             e.printStackTrace();
-        }
-       
+        }       
     }
     
 

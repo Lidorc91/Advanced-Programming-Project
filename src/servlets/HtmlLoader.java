@@ -11,7 +11,7 @@ import server.RequestParser.RequestInfo;
  */
 public class HtmlLoader implements Servlet {
 
-    private String htmlRootDir;
+    private final String htmlRootDir;
 
     public HtmlLoader(String htmlRootDir) {
         this.htmlRootDir = htmlRootDir;
@@ -32,13 +32,26 @@ public class HtmlLoader implements Servlet {
         String uri = requestInfo.getUri();
         String[] uriComponents = requestInfo.getUriSegments();
 
-        if (uriComponents.length < 2) {
+        String htmlFileName;
+        Path filePath;
+        if(uriComponents.length == 1 && uriComponents[0].equals("app")) {
+            htmlFileName = "index.html";
+            filePath = Paths.get("html_files", htmlFileName);  
+        }else if (uriComponents.length >1 ) {
+            htmlFileName = uriComponents[uriComponents.length - 1]; 
+            filePath = Paths.get("html_files", htmlFileName);                       
+        }else{
+            htmlFileName = "index.html";
+            filePath = Paths.get("html_files", htmlFileName);
+        }
+
+        if (uriComponents.length < 1) {
             sendErrorResponse(toClient, "Invalid URL");
             return;
         }
 
-        String htmlFileName = uriComponents[uriComponents.length - 1];
-        Path filePath = Paths.get(htmlRootDir, htmlFileName);
+        //String htmlFileName = uriComponents[uriComponents.length - 1];
+        //Path filePath = Paths.get(htmlRootDir, htmlFileName);
 
         // Check if the file exists
         if (!Files.exists(filePath)) {

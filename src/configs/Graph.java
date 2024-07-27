@@ -74,13 +74,13 @@ public class Graph extends ArrayList<Node>{
 		
     }    
 	
-		/**
-		 * An assistant method that searches for a node in the graph with the given name and returns its index if found,
-		 * or -1 if not found.
-		 *
-		 * @param  name  the name of the node to search for
-		 * @return       the index of the node if found, or -1 if not found
-		 */
+	/**
+	 * An assistant method that searches for a node in the graph with the given name and returns its index if found,
+	 * or -1 if not found.
+	 *
+	 * @param  name  the name of the node to search for
+	 * @return       the index of the node if found, or -1 if not found
+	 */
     private int searchGraph(String name) {
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).getName().equals(name)) {
