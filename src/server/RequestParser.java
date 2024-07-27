@@ -7,7 +7,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import server.RequestParser.RequestInfo;
 
 /**
  * This class implements the RequestParser which parses an HTTP request and returns a RequestInfo object containing the parsed information.
@@ -24,8 +23,7 @@ public class RequestParser {
     public static RequestInfo parseRequest(BufferedReader reader) throws IOException {        
 		// implement
     	//Set up and read request
-        ArrayList<String> requestLine = new ArrayList<>();
-        int threads = Thread.activeCount();        
+        ArrayList<String> requestLine = new ArrayList<>();        
         while ((reader.ready())) {
             requestLine.add(reader.readLine());
         }

@@ -21,6 +21,7 @@ public class ConfLoader implements Servlet{
      * @param  toClient     the output stream to send the response back to the client
      * @throws IOException  if there is an error reading or writing to the file or the output stream
      */
+    //TODO - fix incorrect file path (graph.js and style.css)
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
         Map<String, String> httpParameters = requestInfo.getParameters();
@@ -58,7 +59,7 @@ public class ConfLoader implements Servlet{
 
         // Convert the response to bytes
         byte[] responseBytes = graphHtml.toString().getBytes("UTF-8");
-        
+        //TODO - fix MIME type ?
         String httpResponse = "HTTP/1.1 200 OK\r\n" +
         "Content-Type: text/html\r\n" +
         "Content-Length: " + responseBytes.length + "\r\n" +

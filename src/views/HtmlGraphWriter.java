@@ -36,7 +36,7 @@ public class HtmlGraphWriter {
 		// Replace placeholders with graph data
 		htmlTemplate = htmlTemplate.replace("graphNodes", getGraphNodesHTML(graph));
 		htmlTemplate = htmlTemplate.replace("graphLinks", getGraphLinksHTML(graph));
-
+		
 		// Split the HTML into a list of strings
 		String[] htmlLines = htmlTemplate.split("\n");
 		
