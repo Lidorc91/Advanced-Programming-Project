@@ -13,15 +13,17 @@ public class Main {
 	 * @throws Exception  if there is an error starting the server
 	 */
 	 public static void main(String[] args) throws Exception{
-	HTTPServer server=new MyHTTPServer(8080,5);
+	HTTPServer server=new MyHTTPServer(8080,10);
 	server.addServlet("GET", "/publish", new TopicDisplayer()); 
 	server.addServlet("POST", "/upload", new ConfLoader());
 	server.addServlet("GET", "/app/", new HtmlLoader("html_files"));
 	server.start();
 	System.in.read();
-	System.out.println("Active threads: " + Thread.activeCount());
 	System.in.read();
 	server.close();
+	//TODO - Check active thread at exit
+	System.out.println("Active threads: " + Thread.activeCount());
 	System.out.println("done"); 
+	//TODO - Remove all debug messages
 	}
 }

@@ -64,7 +64,25 @@ public class HtmlLoader implements Servlet {
 
         // Send the HTTP response headers
         toClient.write(("HTTP/1.1 200 OK\r\n").getBytes());
-        toClient.write(("Content-Type: text/html\r\n").getBytes());
+        //TODO - fix MIME type
+        String mimedebug = htmlFileName.split("\\.")[1];
+        switch (htmlFileName.split("\\.")[1]) {
+            case "html":
+                toClient.write(("Content-Type: text/html\r\n").getBytes());
+                break;
+            case "css":
+                toClient.write(("Content-Type: text/css\r\n").getBytes());
+                break;
+            case "js":
+                toClient.write(("Content-Type: text/javascript\r\n").getBytes());
+                break;
+            case "ico":
+                toClient.write(("Content-Type: image/x-icon\r\n").getBytes());
+                break;
+            default:
+                throw new AssertionError();
+        }
+        
         toClient.write(("Content-Length: " + fileContent.length + "\r\n").getBytes());
         toClient.write(("\r\n").getBytes());
 
