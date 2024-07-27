@@ -92,9 +92,6 @@ public class MyHTTPServer extends Thread implements HTTPServer{
          	try {
 					Socket client = _serverSocket.accept();
 					System.out.println("New request received from " + client.getInetAddress().getHostAddress());
-					System.out.println("_servletsGet " + _servletsGet);
-					System.out.println("_servletsPost " + _servletsPost);
-					System.out.println("_servletsDelete " + _servletsDelete);
 					_executorService.execute(new MyHTTPRequest(client, _servletsGet,_servletsPost,_servletsDelete)); 
 				} catch (IOException e) {
 					
@@ -197,10 +194,7 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 					break;    
 				default: 
 					break;
-			}
-				_clientReader.close();
-				_clientOutput.close();
-				_client.close();	
+			}	
 			} catch (IOException e) {
 				
 			} finally{
@@ -240,7 +234,7 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 				for(int j = 0; j < uri.length-i; j++){
 					concatenatedUri.append("/").append(uri[j]);
 				}
-				if(i>0 || (i==0 && uri.length == 1)){
+				if(i>0 || (i==0 && uri.length == 1 && uri[0].equals("app"))){
 					concatenatedUri.append("/");
 				}
 				/* if(uri[0].split("/").length == 0){ //Root URI

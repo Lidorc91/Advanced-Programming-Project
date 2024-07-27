@@ -29,7 +29,9 @@ public class RequestParser {
         while ((reader.ready())) {
             requestLine.add(reader.readLine());
         }
-        System.out.println("requestLine: " + requestLine);
+
+        //System.out.println("requestLine: " + requestLine);
+
         //Split the Command and URI Line
         String httpCommand = requestLine.get(0).split(" ")[0];
         String uri = requestLine.get(0).split(" ")[1];
@@ -45,6 +47,13 @@ public class RequestParser {
                 uriSegmentsParsed[i] = uriSegments[i+1];
             }
         }
+
+        System.out.print("uriSegments requested: ");
+        //TODO - Check Debug of parameters sent
+        for (String s : uriSegmentsParsed) {
+            System.out.print("/"+s);
+        }
+        System.out.print('\n');
         
 		//Parse the Parameters 
   		Map<String, String> parameters = new HashMap<>();
