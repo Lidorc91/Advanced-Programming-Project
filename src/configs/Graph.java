@@ -45,19 +45,17 @@ public class Graph extends ArrayList<Node>{
 		TopicManager tm = TopicManagerSingleton.get();
 		//ArrayList<Agent> visitedAgents = new ArrayList<Agent>();
 		tm.getTopics().forEach((topic) -> {
-			Node n = new Node("T" + topic.name);
+			Node n = new Node("T" + topic._name);
 			//Add subscribers
 			for (Agent a : topic.getSubscribers()) {
-				if (!a.getName().equals("NotifierAgent")){					
-					if(searchGraph("A" + a.getName()) == -1) {
-						Node tempAgent = new Node("A" + a.getName());
-						this.add(tempAgent);
-						//visitedAgents.add(a);
-						n.addEdge(tempAgent);
-					}else {
-						n.addEdge(this.get(searchGraph("A" + a.getName())));
-					}				
-				}
+				if(searchGraph("A" + a.getName()) == -1) {
+					Node tempAgent = new Node("A" + a.getName());
+					this.add(tempAgent);
+					//visitedAgents.add(a);
+					n.addEdge(tempAgent);
+				}else {
+					n.addEdge(this.get(searchGraph("A" + a.getName())));
+				}				
 			}
 			//Add publishers
 			for (Agent a : topic.getPublishers()) {
@@ -75,10 +73,10 @@ public class Graph extends ArrayList<Node>{
     }    
 	
 	/**
-	 * An assistant method that searches for a node in the graph with the given name and returns its index if found,
-	 * or -1 if not found.
+	 * An assistant method that searches for a node in the graph with the given _name and returns its index if found,
+ or -1 if not found.
 	 *
-	 * @param  name  the name of the node to search for
+	 * @param  name  the _name of the node to search for
 	 * @return       the index of the node if found, or -1 if not found
 	 */
     private int searchGraph(String name) {

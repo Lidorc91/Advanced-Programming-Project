@@ -41,7 +41,7 @@ public class IncAgent implements Agent{
 	 */
 	@Override
 	public void callback(String topic, Message msg) {
-        if(_inputTopic.name.equals(topic)) {
+        if(_inputTopic._name.equals(topic)) {
             if(msg.asDouble == Double.NaN) {
                 return;
             }

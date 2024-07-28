@@ -62,10 +62,10 @@ public class MulAgent implements Agent {
     	if(msg.asDouble == Double.NaN) {
 			return;
 		}
-		if(_inputTopic1.name.equals(topic)) {
+		if(_inputTopic1._name.equals(topic)) {
 			_x = msg.asDouble;
 		}
-		else if(_inputTopic2.name.equals(topic)) {
+		else if(_inputTopic2._name.equals(topic)) {
 			_y = msg.asDouble;
 		}
 		if((_x != Double.NaN && _y != Double.NaN) && (_x != 0 && _y != 0)) {
