@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import configs.*;
 import graph.Agent;
 import graph.ParallelAgent;
+import graph.TopicManagerSingleton;
+import graph.TopicManagerSingleton.TopicManager;
 
 
 /**
@@ -43,6 +45,11 @@ public class GenericConfig implements Config {
 	 * @throws IOException  if an error occurs while reading the file
 	 */
 	public void create() {
+		//Reset Previous Config
+		close();
+		TopicManager tm = TopicManagerSingleton.get();
+		tm.clear();
+
 		ArrayList<String> data = new ArrayList<>();	
 		Path filePath = Paths.get(_confFilePath);
 		try {
@@ -124,14 +131,15 @@ public class GenericConfig implements Config {
 	public void close() {
 		for(ParallelAgent a : activeAgents) {
 			a.close();
-		}		
+		}
+		activeAgents.clear();		
 	}
 	
 	/**
 	 * Sets the file path for the configuration file.
 	 *
 	 * @param  filePath  the path to the configuration file
-	 */
+	 git ch*/
 	public void setConfFile(String filePath) {
 		_confFilePath = filePath;
 	}
