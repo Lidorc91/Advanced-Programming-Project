@@ -18,6 +18,7 @@ public class Topic {
 
     /**
      * Subscribes an Agent to this Topic if it is not already subscribed.
+     * Subscriber agents will receive messages from the Topic.
      *
      * @param  a  the Agent to subscribe
      */
@@ -25,7 +26,7 @@ public class Topic {
     	//look for a in subscribers and add if not present
     	if(subscribers.contains(a))
     		return;
-		subscribers.add(a);
+		  subscribers.add(a);
     }
     /**
      * Removes the specified Agent from the list of subscribers.
@@ -51,13 +52,14 @@ public class Topic {
 
     /**
      * Adds an Agent as a publisher to this Topic if it is not already a publisher.
+     * Publisher agents will publish their messages to the Topic.
      *
      * @param  a  the Agent to add as a publisher
      */
     public void addPublisher(Agent a){
     	if(publishers.contains(a))
     		return;
-		publishers.add(a);
+		  publishers.add(a);
     }
 
     /**

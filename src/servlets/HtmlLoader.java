@@ -64,7 +64,7 @@ public class HtmlLoader implements Servlet {
 
         // Send the HTTP response headers
         toClient.write(("HTTP/1.1 200 OK\r\n").getBytes());
-        //TODO - fix MIME type
+        
         String mimedebug = htmlFileName.split("\\.")[1];
         switch (htmlFileName.split("\\.")[1]) {
             case "html":

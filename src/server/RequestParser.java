@@ -47,7 +47,7 @@ public class RequestParser {
         }
 
         System.out.print("uriSegments requested: ");
-        //TODO - Check Debug of parameters sent
+        
         for (String s : uriSegmentsParsed) {
             System.out.print("/"+s);
         }

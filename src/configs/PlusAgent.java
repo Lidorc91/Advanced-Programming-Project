@@ -5,7 +5,6 @@ import graph.Message;
 import graph.Topic;
 import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
-
 /**
  * This class represents an agent that performs the addition operation.
  * For methods without a javadoc please see {@link graph.Agent}
@@ -71,7 +70,6 @@ public class PlusAgent implements Agent {
 		if((_x != Double.NaN && _y != Double.NaN) && (_x != 0 && _y != 0)) {
 			double result = _x + _y;
 			_outputTopic.publish(new Message(result));
-			reset();
 		}
     }
 
