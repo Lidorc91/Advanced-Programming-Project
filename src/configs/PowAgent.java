@@ -26,7 +26,7 @@ public class PowAgent implements Agent{
     
 	@Override
 	public String getName() {		
-		return "IncAgent";
+		return "PowAgent";
 	}
 
 	

@@ -11,7 +11,8 @@ import server.RequestParser.RequestInfo;
  * This class handles the incoming requests about messages sent through a topic and displays their latest values in an HTML table.
  */
 public class TopicDisplayer implements Servlet{
-    private static final Map<String,String> _topicsTable = new HashMap<>();
+    public static final Map<String,String> _topicsTable = new HashMap<>();
+    
         /**
          * Handles the incoming HTTP request by parsing the parameters, storing the topic and message in a map,
          * creating a new message object, publishing the message to the specified topic, and generating an HTML response.
@@ -26,10 +27,9 @@ public class TopicDisplayer implements Servlet{
         // Generate the HTML response        
         String topic = requestInfo.getParameters().get("topic");
         String message = requestInfo.getParameters().get("message");
-        TopicManager tm = TopicManagerSingleton.get();       
+        TopicManager tm = TopicManagerSingleton.get();      
         if (topic != null && message != null) {
             Message msg = new Message(message);
-            //TODO - Check if I should only be able to send messages to topics that are being subscribed to (check if topic doesnt have a publisher)
             tm.getTopics().forEach((t) -> { //Check if topic exists
                 if(t.name.equals(topic) && t.getPublishers().isEmpty()){
                     _topicsTable.put(topic, message);

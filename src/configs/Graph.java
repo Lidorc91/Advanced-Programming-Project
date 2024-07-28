@@ -10,7 +10,7 @@ import java.util.ArrayList;
  * It contains the nodes (agents and topics) and their connections.
  */
 public class Graph extends ArrayList<Node>{
-	
+
 	public Graph() {
 		super();
 		
@@ -48,14 +48,16 @@ public class Graph extends ArrayList<Node>{
 			Node n = new Node("T" + topic.name);
 			//Add subscribers
 			for (Agent a : topic.getSubscribers()) {
-				if(searchGraph("A" + a.getName()) == -1) {
-					Node tempAgent = new Node("A" + a.getName());
-					this.add(tempAgent);
-					//visitedAgents.add(a);
-					n.addEdge(tempAgent);
-				}else {
-					n.addEdge(this.get(searchGraph("A" + a.getName())));
-				}				
+				if (!a.getName().equals("NotifierAgent")){					
+					if(searchGraph("A" + a.getName()) == -1) {
+						Node tempAgent = new Node("A" + a.getName());
+						this.add(tempAgent);
+						//visitedAgents.add(a);
+						n.addEdge(tempAgent);
+					}else {
+						n.addEdge(this.get(searchGraph("A" + a.getName())));
+					}				
+				}
 			}
 			//Add publishers
 			for (Agent a : topic.getPublishers()) {
@@ -69,9 +71,7 @@ public class Graph extends ArrayList<Node>{
 				}				
 			}
 			this.add(n);	
-		});
-		
-		
+		});	
     }    
 	
 	/**

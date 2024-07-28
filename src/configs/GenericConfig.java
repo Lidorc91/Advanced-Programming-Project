@@ -1,5 +1,7 @@
 package configs;
 
+import static servlets.TopicDisplayer._topicsTable;
+
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -22,7 +24,7 @@ public class GenericConfig implements Config {
 	private String _confFilePath;
 	
 	public GenericConfig() {
-		activeAgents = new ArrayList<ParallelAgent>();				
+		activeAgents = new ArrayList<ParallelAgent>();
 		_confFilePath = "";
 	}
 	
@@ -55,7 +57,7 @@ public class GenericConfig implements Config {
 		if(data.size() %3 != 0) {
 			return;
 		}
-		
+
 		for(int i = 0; i < data.size(); i+=3) { //read 3 lines per agent
 			try {
 				String className = data.get(i).replaceAll("project_biu.", "");
@@ -72,6 +74,7 @@ public class GenericConfig implements Config {
 				Agent a = (Agent) constructor.newInstance(new Object[] { args1, args2 });
 				ParallelAgent pa = new ParallelAgent(a, 10);
 				activeAgents.add(pa);
+
 			} catch (ClassNotFoundException e) {
 					System.err.println("Class not found: " + e.getMessage()); // Detailed error message
 			} catch (NoSuchMethodException e) {
@@ -88,6 +91,21 @@ public class GenericConfig implements Config {
 				e.printStackTrace(); // Generic exception handler
 			}							
 		}
+
+		//Reset Data for new Config
+
+		//Clear Topics Table to remove old topics and values
+		_topicsTable.clear();
+
+		// Create NotifierAgent for notification
+		NotifierAgent _na = new NotifierAgent();
+		ParallelAgent _parallelnotifierAgent = new ParallelAgent(_na, 10);
+		activeAgents.add(_parallelnotifierAgent);
+
+		// Reset all active agents (on new graph creation)
+		for (ParallelAgent a : activeAgents) {
+			a.reset();			
+		}		
 	}
 
     /**
