@@ -86,6 +86,14 @@ form input[type="file"],
 form input[type="submit"],
 form button {
   margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
+}
+#message,
+#topic {
+  margin-top: 10px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 table {
