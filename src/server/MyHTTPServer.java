@@ -111,7 +111,7 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 		//close running thread
         running = false;
 
-    	//close all servlets
+		//close all servlets
         _executorService.shutdown();
         try {
             if (!_executorService.awaitTermination(800, TimeUnit.MILLISECONDS)) {
@@ -120,6 +120,26 @@ public class MyHTTPServer extends Thread implements HTTPServer{
         } catch (InterruptedException e) {
             _executorService.shutdownNow();
         }  
+
+		//close agents
+		for(Servlet s : _servletsGet.values()){
+            try {
+                s.close();
+            } catch (IOException ex) {
+            }
+		}
+		for(Servlet s : _servletsPost.values()){
+            try {
+                s.close();
+            } catch (IOException ex) {
+            }
+		}
+		for(Servlet s : _servletsDelete.values()){
+            try {
+                s.close();
+            } catch (IOException ex) {
+            }
+		}
 		
 		// Close the ServerSocket
 		try {
@@ -172,21 +192,18 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 
 				switch (parser.getHttpCommand()) {
 				case ("GET"): 
-					System.err.println("in GET");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsGet);
                     if(servlet != null){
                         servlet.handle(parser, _clientOutput);
                     }
 					break;
 				case ("POST"): 
-					System.err.println("in POST");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsPost);
 	                if(servlet != null){
 	                    servlet.handle(parser,_clientOutput);
 	                }
 					break;				
 				case ("DELETE"): 
-					System.err.println("in DELETE");
 					servlet = findLongestMatch(parser.getUriSegments(), _servletsDelete);
 	                if(servlet != null){
 	                    servlet.handle(parser,_clientOutput);
@@ -209,7 +226,7 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 						_client.close();
 					}
 				} catch (IOException e) {
-					e.printStackTrace();
+					//e.printStackTrace();
 				}
 			}
 			
