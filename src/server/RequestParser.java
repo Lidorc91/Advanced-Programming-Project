@@ -28,7 +28,6 @@ public class RequestParser {
             requestLine.add(reader.readLine());
         }
 
-        //System.out.println("requestLine: " + requestLine);
 
         //Split the Command and URI Line
         String httpCommand = requestLine.get(0).split(" ")[0];
@@ -46,12 +45,7 @@ public class RequestParser {
             }
         }
 
-        System.out.print("uriSegments requested: ");
-        
-        for (String s : uriSegmentsParsed) {
-            System.out.print("/"+s);
-        }
-        System.out.print('\n');
+
         
 		//Parse the Parameters 
   		Map<String, String> parameters = new HashMap<>();
@@ -88,7 +82,6 @@ public class RequestParser {
             if (matcher.find()) {
                 String filename = matcher.group(1); // extracts the filename
                 parameters.put("filename", filename);
-                System.out.println(filename); // prints "testing.json"
                 break;
             }
         }

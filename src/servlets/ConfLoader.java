@@ -30,16 +30,10 @@ public class ConfLoader implements Servlet{
         }
         Map<String, String> httpParameters = requestInfo.getParameters();
         String fileName = httpParameters.get("filename");
-        String currentWorkingDir = System.getProperty("user.dir");
-        System.out.println("Current working directory: " + currentWorkingDir);
+        
         String fileContent = new String(requestInfo.getContent());
         File file = new File("config_files/" + fileName);
         file.createNewFile();
-        if (file.exists() && file.isFile()){
-            System.out.println("File exists: " + file.getAbsolutePath());
-        }else{
-            System.out.println("File does not exist: " + file.getAbsolutePath());
-        }
         BufferedReader reader = new BufferedReader(new StringReader(fileContent));
         FileWriter writer = new FileWriter(file);
 
@@ -75,7 +69,6 @@ public class ConfLoader implements Servlet{
         // Combine the HTTP response and the response body
         String fullResponse = httpResponse + responseBody;
     
-        System.out.println("full response from server: " + fullResponse);
         // Combine the HTTP response and the response body
         toClient.write(fullResponse.getBytes("UTF-8"));
 

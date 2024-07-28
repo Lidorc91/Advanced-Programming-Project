@@ -91,11 +91,13 @@ public class MyHTTPServer extends Thread implements HTTPServer{
     	 while (running) {
          	try {
 					Socket client = _serverSocket.accept();
-					System.out.println("New request received from " + client.getInetAddress().getHostAddress());
+					Thread.sleep(1);
+					//System.out.println("New request received from " + client.getInetAddress().getHostAddress());
 					_executorService.execute(new MyHTTPRequest(client, _servletsGet,_servletsPost,_servletsDelete)); 
 				} catch (IOException e) {
 					
-				}
+				} catch (InterruptedException ex) {
+                 }
          }
     }
 		/**
@@ -266,15 +268,12 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 				/* if(i != 0 && !uri[0].equals("/") ){ 
 					concatenatedUri.append("/");
 				} */
-				System.out.println("Concatenated URI: " + concatenatedUri.toString());
 				//Check if it matches any servlet
 				
 				if(servlets.containsKey(concatenatedUri.toString())){
-					System.out.println("Match found! Returning servlet: " + servlets.get(concatenatedUri.toString()).getClass().getSimpleName());
 					return servlets.get(concatenatedUri.toString());
 				}
 			}	
-			System.out.println("No match found. Returning null.");		
 			return null;
 		}
 	}
