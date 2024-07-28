@@ -95,7 +95,6 @@ public class HtmlLoader implements Servlet {
 
     @Override
     public void close() throws IOException {
-        // TODO Auto-generated method stub
         // No resources to close
     }
 

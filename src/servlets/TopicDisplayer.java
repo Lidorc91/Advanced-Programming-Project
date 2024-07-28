@@ -87,8 +87,7 @@ public class TopicDisplayer implements Servlet{
 
     @Override
     public void close() throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'close'");
+        // No resources to close
     }
 
 }   

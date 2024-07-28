@@ -11,6 +11,7 @@ import views.HtmlGraphWriter;
  * the HTML representation of the graph based on the loaded configurations.
  */
 public class ConfLoader implements Servlet{
+    private GenericConfig config;
 
     /**
      * Handles the incoming request by processing the HTTP parameters, creating a file with the uploaded content,
@@ -23,6 +24,10 @@ public class ConfLoader implements Servlet{
      */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
+        if(config != null){
+            config.close();
+            config = null;
+        }
         Map<String, String> httpParameters = requestInfo.getParameters();
         String fileName = httpParameters.get("filename");
         String currentWorkingDir = System.getProperty("user.dir");
@@ -48,7 +53,7 @@ public class ConfLoader implements Servlet{
 
         //TODO - RESET/REMOVE graph between config deployment (Remove old agents and topics)
         // Load the configuration and create the graph
-        GenericConfig config = new GenericConfig();
+        config = new GenericConfig();
         config.setConfFile("config_files/" + fileName);
         config.create();
         Graph graph = new Graph();
@@ -100,8 +105,7 @@ public class ConfLoader implements Servlet{
     }
 
     @Override
-    public void close() throws IOException {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'close'");
+    public void close() {
+        config.close();                
     }
 }
