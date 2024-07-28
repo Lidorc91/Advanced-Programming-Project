@@ -1,7 +1,5 @@
 package configs;
 
-import static servlets.TopicDisplayer._topicsTable;
-
 import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -92,16 +90,7 @@ public class GenericConfig implements Config {
 			}							
 		}
 
-		//Reset Data for new Config
-
-		//Clear Topics Table to remove old topics and values
-		_topicsTable.clear();
-
-		// Create NotifierAgent for notification
-		NotifierAgent _na = new NotifierAgent();
-		ParallelAgent _parallelnotifierAgent = new ParallelAgent(_na, 10);
-		activeAgents.add(_parallelnotifierAgent);
-
+		//TODO - Is this where we reset the new config ?
 		// Reset all active agents (on new graph creation)
 		for (ParallelAgent a : activeAgents) {
 			a.reset();			

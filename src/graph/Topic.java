@@ -8,12 +8,14 @@ import java.util.List;
  * This class represents a topic in the graph, and holds its subscribers and publishers.
  */
 public class Topic {
-    public final String name;
+    public final String _name;
+    private Message _msg;
     List<Agent> subscribers = new ArrayList<>();
     List<Agent> publishers = new ArrayList<>();
     
     Topic(String name){
-        this.name=name;
+        this._name=name;
+        _msg = new Message("No message");
     }
 
     /**
@@ -45,8 +47,9 @@ public class Topic {
 		 * @param  m  the message to publish
 		 */
     public void publish(Message m){
+    	_msg = m;
 		for(Agent a:subscribers) {
-			a.callback(name, m);
+			a.callback(_name, m);
 		}
     }
 
@@ -89,5 +92,13 @@ public class Topic {
      */
     public List<Agent> getPublishers() {
     	return publishers;
+    }
+
+    public Message getMessage(){
+    	return _msg;
+    }
+
+    public void setMessage(Message msg){
+    	_msg = msg;
     }
 }

@@ -57,10 +57,10 @@ public class BinOpAgent implements Agent {
 		if(msg.asDouble == Double.NaN) {
 			return;
 		}
-		if(_inputTopic1.name.equals(topic)) {
+		if(_inputTopic1._name.equals(topic)) {
 			_msg1 = msg.asDouble;
 		}
-		else if(_inputTopic2.name.equals(topic)) {
+		else if(_inputTopic2._name.equals(topic)) {
 			_msg2 = msg.asDouble;
 		}
 		if(_msg1 != 0 && _msg2 != 0) {

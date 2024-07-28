@@ -3,16 +3,12 @@ import graph.*;
 import graph.TopicManagerSingleton.TopicManager;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
 import server.RequestParser.RequestInfo;
 
 /**
  * This class handles the incoming requests about messages sent through a topic and displays their latest values in an HTML table.
  */
-public class TopicDisplayer implements Servlet{
-    public static final Map<String,String> _topicsTable = new HashMap<>();
-    
+public class TopicDisplayer implements Servlet{    
         /**
          * Handles the incoming HTTP request by parsing the parameters, storing the topic and message in a map,
          * creating a new message object, publishing the message to the specified topic, and generating an HTML response.
@@ -31,9 +27,10 @@ public class TopicDisplayer implements Servlet{
         if (topic != null && message != null) {
             Message msg = new Message(message);
             tm.getTopics().forEach((t) -> { //Check if topic exists
-                if(t.name.equals(topic) && t.getPublishers().isEmpty()){
-                    _topicsTable.put(topic, message);
+                if(t._name.equals(topic) && t.getPublishers().isEmpty()){
                     tm.getTopic(topic).publish(msg);
+                }else if(t._name.equals(topic) && !t.getPublishers().isEmpty()){
+                    t.setMessage(new Message("Invalid Entry"));
                 }
             });
             generateResponse(toClient);
@@ -59,12 +56,11 @@ public class TopicDisplayer implements Servlet{
         response.append("<table border='1'>");
         response.append("<tr><th>Topic</th><th>Latest Value</th></tr>");
 
-        //TODO - FIX Table not showing result values.
         // Iterate over each currentTopic and add rows to the table
         for (var topic : TopicManagerSingleton.get().getTopics()) {
             response.append("<tr>");
-            response.append("<td>").append(topic.name).append("</td>");
-            response.append("<td>").append(_topicsTable.containsKey(topic.name)  ? _topicsTable.get(topic.name) : "No messages yet").append("</td>");
+            response.append("<td>").append(topic._name).append("</td>");
+            response.append("<td>").append(topic.getMessage().asText).append("</td>");
             response.append("</tr>");
         }
         

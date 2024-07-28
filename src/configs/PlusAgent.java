@@ -56,18 +56,19 @@ public class PlusAgent implements Agent {
 	 * @param  topic  the topic of the received message
 	 * @param  msg    the received message (number)
 	 */
+	//TODO - Fix not being able to use 0 as a number (and "no message" bein equal to 0)
     @Override
     public void callback(String topic, Message msg) {
     	if(msg.asDouble == Double.NaN) {
 			return;
 		}
-		if(_inputTopic1.name.equals(topic)) {
+		if(_inputTopic1._name.equals(topic)) {
 			_x = msg.asDouble;
 		}
-		else if(_inputTopic2.name.equals(topic)) {
+		else if(_inputTopic2._name.equals(topic)) {
 			_y = msg.asDouble;
 		}
-		if((_x != Double.NaN && _y != Double.NaN) && (_x != 0 && _y != 0)) {
+		if((_x != Double.NaN && _y != Double.NaN )) {
 			double result = _x + _y;
 			_outputTopic.publish(new Message(result));
 		}
