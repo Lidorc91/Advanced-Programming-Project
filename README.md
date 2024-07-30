@@ -82,5 +82,4 @@ server.start();
 **Java Development Kit (JDK)**: Ensure JDK 8 or higher is installed to compile and run the project.
 
 ### [Project Demo](https://www.canva.com/design/DAGMCgI0YJs/KN7cJPAa8wqA0JD_QayP4g/edit)
-[(Full MVC Diagram from Demo)](https://www.figma.com/board/ugArOAWcmGgYcKu87FDVAL/Lidor-Cohen-%26-Ofri-Caspi-Design?node-id=0-1&t=NlrCmb7ZAyDiF2OZ-0)
 
