@@ -82,5 +82,5 @@ server.start();
 **Java Development Kit (JDK)**: Ensure JDK 8 or higher is installed to compile and run the project.
 
 ## Further Project Description and Demo:
-- [Project Presentation]()
+- [Project Presentation](https://www.canva.com/design/DAGMCgI0YJs/KN7cJPAa8wqA0JD_QayP4g/edit)
 - [Demo]()
