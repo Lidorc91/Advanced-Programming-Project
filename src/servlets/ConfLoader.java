@@ -45,7 +45,6 @@ public class ConfLoader implements Servlet{
         }
         writer.close();
 
-        //TODO - RESET/REMOVE graph between config deployment (Remove old agents and topics)
         // Load the configuration and create the graph
         config = new GenericConfig();
         config.setConfFile("config_files/" + fileName);

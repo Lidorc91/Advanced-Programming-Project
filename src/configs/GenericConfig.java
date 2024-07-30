@@ -97,7 +97,6 @@ public class GenericConfig implements Config {
 			}							
 		}
 
-		//TODO - Is this where we reset the new config ?
 		// Reset all active agents (on new graph creation)
 		for (ParallelAgent a : activeAgents) {
 			a.reset();			
