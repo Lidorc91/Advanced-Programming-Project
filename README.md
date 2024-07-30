@@ -48,7 +48,7 @@ The repository is organized into several directories:
 
 **Browser Operation:**
 
-1. Entering the /app page will call the `HtmlLoader.java` servelet which will load the html files in `html_files` directory.
+1. Entering the `localhost:<port_number>/app` page will call the `HtmlLoader.java` servelet which will load the html files in `html_files` directory.
 2. When uploading a config file and deploying it, the `ConfLoader.java` is called and it creates the graph based on the elements in the config file that are matched with the elements in the `config` directory.
 3. `ConfLoader.java` takes the graph it created with and converts it to HTML using `HtmlGraphWriter.java`, and then finally sends it back to the client with graph in a compatible HTML format.   
 4. When a topic and message are entered and "Send Message" is clicked, `TopicDisplayer.java` is called, which takes the current message data for each topic creates an HTTP packet with with HTML that displays a table with the topics and messages and sends it to the client.
