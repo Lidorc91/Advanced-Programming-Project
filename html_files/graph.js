@@ -106,6 +106,15 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
     });
+  // Add message text above each node
+  node
+    .append("text")
+    .text((d) => d.message || "") // Add message text, defaulting to empty if no message
+    .attr("text-anchor", "middle")
+    .attr("dominant-baseline", "baseline") // Position text above the node
+    .attr("y", -30) // Position above the node
+    .style("font-size", "10px") // Font size for text
+    .style("fill", "black"); // Color for text
 
   // Simulation tick function
   simulation.on("tick", () => {
@@ -140,5 +149,24 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!event.active) simulation.alphaTarget(0);
     d.fx = null;
     d.fy = null;
+  }
+});
+
+window.addEventListener("message", function (event) {
+  if (event.data.type === "topicValues") {
+    const topicValues = event.data.values;
+    // Update node values and text
+    nodes.forEach((node) => {
+      if (topicValues[node.id] !== undefined) {
+        node.value = topicValues[node.id];
+      }
+    });
+
+    // Update text for Topic nodes
+    node.each(function (d) {
+      if (d.type === "Topic") {
+        d3.select(this).select("text").text(`${d.name}: ${d.value}`);
+      }
+    });
   }
 });
