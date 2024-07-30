@@ -117,7 +117,7 @@ public class TopicDisplayer implements Servlet{
     
             // Append the value to the StringBuilder
             if (!first) {
-                values.append("\n"); // Append comma and newline for subsequent values
+                values.append(","); // Append comma and newline for subsequent values
             }
             values.append(valueStr);
             first = false;  // Subsequent entries should be preceded by a comma

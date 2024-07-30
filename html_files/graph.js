@@ -1,7 +1,14 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const nodes = graphConfig.nodes;
+  class Node {
+    constructor(id, type, value = null) {
+      this.id = id;
+      this.type = type;
+      this.name = id.slice(1);
+      this.value = value;
+    }
+  }
+  const nodes = graphConfig.nodes.map((node) => new Node(node.id, node.type));
   const links = graphConfig.links;
-
   // Initialize D3.js force simulation
   const width = document.getElementById("graph-container").offsetWidth;
   const height = 600;
@@ -87,7 +94,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Add labels to nodes
   node
     .append("text")
-    .text((d) => d.id.slice(1))
+    .text((d) => d.name)
     .attr("text-anchor", "middle")
     .attr("dominant-baseline", "middle")
     .style("font-size", "10px") // Font size for text
@@ -106,10 +113,11 @@ document.addEventListener("DOMContentLoaded", () => {
         );
       }
     });
+
   // Add message text above each node
   node
     .append("text")
-    .text((d) => d.message || "") // Add message text, defaulting to empty if no message
+    .text((d) => (d.value !== null ? d.value : ""))
     .attr("text-anchor", "middle")
     .attr("dominant-baseline", "baseline") // Position text above the node
     .attr("y", -30) // Position above the node
@@ -150,23 +158,30 @@ document.addEventListener("DOMContentLoaded", () => {
     d.fx = null;
     d.fy = null;
   }
-});
 
-window.addEventListener("message", function (event) {
-  if (event.data.type === "topicValues") {
-    const topicValues = event.data.values;
-    // Update node values and text
-    nodes.forEach((node) => {
-      if (topicValues[node.id] !== undefined) {
-        node.value = topicValues[node.id];
-      }
-    });
+  window.addEventListener("message", function (event) {
+    if (event.data.type === "topicValues") {
+      const topicValues = event.data.values;
+      // Update node values and text
+      nodes.forEach((node) => {
+        if (
+          topicValues[node.name] == undefined ||
+          topicValues[node.name] == "No message"
+        ) {
+          node.value = "";
+        } else {
+          node.value = topicValues[node.name];
+        }
+      });
 
-    // Update text for Topic nodes
-    node.each(function (d) {
-      if (d.type === "Topic") {
-        d3.select(this).select("text").text(`${d.name}: ${d.value}`);
-      }
-    });
-  }
+      // Update text for Topic nodes
+      node.each(function (d) {
+        if (d.type === "Topic") {
+          d3.select(this)
+            .select("text:nth-child(2)")
+            .text(`${d.name}: ${d.value}`);
+        }
+      });
+    }
+  });
 });
