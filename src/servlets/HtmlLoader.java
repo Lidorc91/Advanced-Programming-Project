@@ -79,6 +79,9 @@ public class HtmlLoader implements Servlet {
             case "ico":
                 toClient.write(("Content-Type: image/x-icon\r\n").getBytes());
                 break;
+            case "png":
+                toClient.write(("Content-Type: image/png\r\n").getBytes());
+                break;
             default:
                 throw new AssertionError();
         }
