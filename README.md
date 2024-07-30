@@ -80,3 +80,7 @@ server.start();
 ## Dependencies
 
 **Java Development Kit (JDK)**: Ensure JDK 8 or higher is installed to compile and run the project.
+
+## Further Project Description and Demo:
+- [Project Presentation]()
+- [Demo]()
