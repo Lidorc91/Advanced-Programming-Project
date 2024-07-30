@@ -11,7 +11,9 @@ import graph.TopicManagerSingleton.TopicManager;
  * For methods without a javadoc please see {@link graph.Agent}
  */
 public class MulAgent implements Agent {
+	private static int agentCounter = 0;
 	TopicManager _tm;
+	private String name;
 	private Topic _inputTopic1;
 	private Topic _inputTopic2;
 	private Topic _outputTopic;
@@ -19,6 +21,8 @@ public class MulAgent implements Agent {
 	private double _y;
 
     public MulAgent(String[] subs, String[] pubs) {
+		agentCounter++;
+		this.name = "MulAgent"+agentCounter;
         _tm = TopicManagerSingleton.get();
     	_tm.getTopic(subs[0]).subscribe(this);
     	_tm.getTopic(subs[1]).subscribe(this);
@@ -34,7 +38,7 @@ public class MulAgent implements Agent {
 
     @Override
     public String getName() {
-    	return "MulAgent";
+		return this.name;
     }
 
 	/**
