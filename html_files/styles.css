@@ -1,41 +1,55 @@
-/* Container to hold the iframes */
+/* Coffee Shop Theme */
+
+/* Global Styles */
+
 html,
 body {
-  overflow: hidden; /* Hide scrollbars */
-  font-family: Arial, sans-serif;
-  margin: 0; /* Reset margin */
-  padding: 0; /* Reset padding */
+  overflow: hidden;
+  background-color: #f5f5f5; /* Creamy white */
+  font-family: "Open Sans", sans-serif;
+  margin: 0;
+  padding: 0;
   overflow: auto;
+  width: 100%;
+  height: 100%;
 }
+
 h2 {
+  color: #856d55;
+  font-size: 18px;
   text-align: center;
-  font-size: 15px;
 }
+
 label {
-  font-size: 12px;
+  color: #856d55; /* Dark gray */
+  font-size: 14px;
 }
-.form_body {
-  overflow: auto;
-}
+
+/* Container Styles */
 
 #frame_container {
   display: flex;
-  height: 87vh; /* Full height of the viewport */
-  overflow: hidden;
+  height: 87vh;
+  background-color: #bfabab; /* Light gray */
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
   width: 100%;
-  gap: 10px; /* Space between iframes */
-  padding: 0; /* Remove padding around the container */
-  margin: 0; /* Remove margin around the container */
+  height: 100%;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 iframe {
-  height: 100%; /* Full height of the container */
-  border: #000000 2px solid;
+  height: 100%;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Specific styles for each iframe */
+
 .iframe-left {
-  width: 30%; /* Adjust width as needed */
+  width: 30%;
   overflow: scroll;
 }
 
@@ -47,47 +61,38 @@ iframe {
   width: 30%; /* Adjust width as needed */
 }
 
-/* FROM STYLING */
+/* Form Styles */
+
 .form_container {
-  width: 90%; /* Responsive width */
-  max-width: 800px; /* Optional: Maximum width */
-  margin: 10px; /* Center the container */
-  padding: 20px; /* Padding inside the container */
-  box-sizing: border-box; /* Include padding in width */
-  overflow: auto;
-  border: 1px solid #000000;
-}
-
-#messageForm {
-  margin: 20px;
-  border: 1px solid #000000;
+  background-color: #fff; /* White */
   padding: 20px;
-}
-
-#uploadForm {
-  margin: 20px;
-  border: 1px solid #000000;
-  padding: 20px;
-}
-
-.form {
-  margin: 20px;
-  border: 1px solid #000000;
-  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .form label {
-  font-size: 10px; /* Adjust font size for labels */
-  display: block;
-  margin-bottom: 10px;
+  color: #666; /* Dark gray */
+  font-size: 14px;
 }
 
 form input[type="file"],
 form input[type="submit"],
 form button {
-  margin-top: 10px;
+  background-color: #856d55; /* Rich brown */
+  color: #fff; /* White */
+  border: none;
   width: 100%;
   box-sizing: border-box;
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+form input[type="file"]:hover,
+form input[type="submit"]:hover,
+form button:hover {
+  background-color: #856d55; /* Darker brown */
 }
 #message,
 #topic {
@@ -96,56 +101,81 @@ form button {
   box-sizing: border-box;
 }
 
-table {
-  border-collapse: collapse;
-  width: 100%;
-}
-table,
-th,
-td {
-  border: 1px solid #ccc;
-  padding: 8px;
-}
-/* GRAPH STYLING */
+/* Graph Styles */
+
 #graph-container {
-  width: 100%;
-  height: 100%; /* Full height of the container */
+  background-color: #f0f0f0; /* Light gray */
+  padding: 20px;
   border: 1px solid #ccc;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 svg {
-  width: 100%;
-}
-
-.node {
-  cursor: pointer;
+  background-color: #fff; /* White */
 }
 
 .node circle {
-  fill: lightblue;
-  stroke: #333;
+  fill: #ffc080; /* Warm beige */
+  stroke: #856d55; /* Rich brown */
   stroke-width: 2px;
 }
 
 .node rect {
-  fill: lightgreen;
-  stroke: #333;
+  fill: #c9e4ca; /* Light green */
+  stroke: #856d55; /* Rich brown */
   stroke-width: 2px;
 }
 
 .link {
-  fill: none;
-  stroke: #000000;
+  stroke: #754975; /* Rich brown */
   stroke-width: 2px;
 }
 
 .link:hover {
-  stroke: #333;
+  stroke: #633974; /* Darker brown */
+}
+/*table styling*/
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #f5f5dc; /* Light beige color */
 }
 
-/* TEMP STYLING */
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+  font-size: 14px;
+  color: #333; /* Dark brown color */
+}
+
+th {
+  background-color: #663300; /* Dark brown color */
+  color: #fff; /* White color */
+  font-weight: bold;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2e6; /* Light beige color */
+}
+
+tr:hover {
+  background-color: #f9f9f9; /* Light gray color */
+}
+
+/* Additional Styles */
 
 .placeholder {
-  color: #999;
+  color: #bfabab; /* Dark gray */
   font-size: 18px;
+}
+
+.coffee-cup {
+  background-image: url("coffee-cup.png"); /* Replace with your own image */
+  background-size: 20px 20px;
+  background-repeat: no-repeat;
+  padding-left: 25px;
 }

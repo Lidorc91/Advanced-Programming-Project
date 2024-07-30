@@ -1,6 +1,9 @@
 package servlets;
 import graph.*;
 import graph.TopicManagerSingleton.TopicManager;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.OutputStream;
 import server.RequestParser.RequestInfo;
@@ -29,13 +32,20 @@ public class TopicDisplayer implements Servlet{
             tm.getTopics().forEach((t) -> { //Check if topic exists
                 if(t._name.equals(topic) && t.getPublishers().isEmpty()){
                     tm.getTopic(topic).publish(msg);
+                    tm.getTopic(topic).setMessage(msg);
                 }else if(t._name.equals(topic) && !t.getPublishers().isEmpty()){
                     t.setMessage(new Message("Invalid Entry"));
                 }
             });
             generateResponse(toClient);
+  
         }else{
-            toClient.write("message/topic missing".getBytes());
+            String httpResponse = "HTTP/1.1 400 Bad Request\r\n" +
+                "Content-Type: text/html\r\n" +
+                "Content-Length: 13\r\n" +
+                "\r\n" +
+                "Message missing";
+            toClient.write(httpResponse.getBytes());
         }
     }
     /**
@@ -45,44 +55,76 @@ public class TopicDisplayer implements Servlet{
      * @throws IOException  if an I/O error occurs while writing the response
      */
     private void generateResponse(OutputStream toClient) throws IOException {
-        StringBuilder response = new StringBuilder();
-        // Start of HTML content
-        response.append("<html>");
-        response.append("<head><title>Topic Values</title></head>");
-        response.append("<body>");
-        response.append("<h2>Topic Values</h2>");
-
-        // Start of table
-        response.append("<table border='1'>");
-        response.append("<tr><th>Topic</th><th>Latest Value</th></tr>");
-
-        // Iterate over each currentTopic and add rows to the table
+        File file = new File("html_files/topicTable.html");
+        StringBuilder htmlTemplateBuilder = new StringBuilder();
+    
+        try (BufferedReader buffer = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = buffer.readLine()) != null) {
+                htmlTemplateBuilder.append(line).append("\n");
+            }
+        } catch (IOException e) {
+            // Handle the exception, e.g., log the error or throw a custom exception
+            System.err.println("Error reading file: " + e.getMessage());
+        }
+    
+        String table = createTable();
+        String values = createValues();
+    
+        // Replace placeholders with graph data
+        htmlTemplateBuilder.replace(0, htmlTemplateBuilder.length(), htmlTemplateBuilder.toString().replace("<!--TABLE-->", table));
+        htmlTemplateBuilder.replace(0, htmlTemplateBuilder.length(), htmlTemplateBuilder.toString().replace("topics_values", values));
+    
+        byte[] responseBytes = htmlTemplateBuilder.toString().getBytes("UTF-8");
+    
+        String httpResponse = "HTTP/1.1 200 OK\r\n" +
+                "Content-Type: text/html\r\n" +
+                "Content-Length: " + responseBytes.length + "\r\n" +
+                "\r\n";
+        String responseBody = new String(responseBytes, "UTF-8");
+        String fullResponse = httpResponse + responseBody;
+    
+        System.out.println("full response from server: " + fullResponse);
+        // Combine the HTTP response and the response body
+        toClient.write(fullResponse.getBytes("UTF-8"));
+    }
+    public String createTable(){
+        StringBuilder table = new StringBuilder();
         for (var topic : TopicManagerSingleton.get().getTopics()) {
-            response.append("<tr>");
-            response.append("<td>").append(topic._name).append("</td>");
-            response.append("<td>").append(topic.getMessage().asText).append("</td>");
-            response.append("</tr>");
+            table.append("<tr>");
+            table.append("<td>").append(topic._name).append("</td>");
+            table.append("<td>").append(topic.getMessage().asText).append("</td>");
+            table.append("</tr>");
+        }
+     return table.toString(); 
+    }
+    public String createValues() {
+        StringBuilder values = new StringBuilder();
+        boolean first = true;  // To manage the leading comma issue
+    
+        for (var topic : TopicManagerSingleton.get().getTopics()) {
+            if (topic.getMessage() == null) {
+                continue;
+            }
+            
+            // Handle the message based on its type
+            String valueStr;
+            if (Double.isNaN(topic.getMessage().asDouble)) {
+                valueStr = String.format("\"%s\": \"%s\"", topic._name, topic.getMessage().asText);
+            } else {
+                valueStr = String.format("\"%s\": %.02f", topic._name, topic.getMessage().asDouble);
+            }
+    
+            // Append the value to the StringBuilder
+            if (!first) {
+                values.append("\n"); // Append comma and newline for subsequent values
+            }
+            values.append(valueStr);
+            first = false;  // Subsequent entries should be preceded by a comma
         }
         
-        // End of table and HTML content
-        response.append("</table>");
-        response.append("</body>");
-        response.append("</html>");
-
-        // Convert the response to bytes
-        byte[] responseBytes = response.toString().getBytes("UTF-8");
-    
-        // Send the HTTP response headers
-        toClient.write("HTTP/1.1 200 OK\r\n".getBytes("UTF-8"));
-        toClient.write("Content-Type: text/html\r\n".getBytes("UTF-8"));
-        toClient.write(("Content-Length: " + responseBytes.length + "\r\n").getBytes("UTF-8"));
-        toClient.write("\r\n".getBytes("UTF-8"));
-
-        // Send the response body
-        toClient.write(responseBytes);
-
-        // Flush the toClient to ensure all content is sent
-        toClient.flush();
+        // Wrap the whole string in curly braces
+        return values.toString();
     }
 
     @Override
