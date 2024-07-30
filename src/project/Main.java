@@ -19,11 +19,5 @@ public class Main {
 	server.addServlet("GET", "/app/", new HtmlLoader("html_files"));
 	server.start();
 	System.in.read();
-	server.close();
-	Thread.sleep(400);
-	//TODO - Check active thread at exit
-	System.out.println("Active threads: " + Thread.activeCount());
-	System.out.println("done"); 
-	//TODO - Remove all debug messages
-	}
+	server.close();	}
 }
