@@ -4,6 +4,8 @@ import graph.Agent;
 import graph.TopicManagerSingleton;
 import graph.TopicManagerSingleton.TopicManager;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class represents the computational graph. 
@@ -80,6 +82,8 @@ public class Graph extends ArrayList<Node>{
 	 * @return       the index of the node if found, or -1 if not found
 	 */
     private int searchGraph(String name) {
+		HashMap<String, Node> agentMap = new HashMap<>();
+
 		for (int i = 0; i < this.size(); i++) {
 			if (this.get(i).getName().equals(name)) {
 				return i;

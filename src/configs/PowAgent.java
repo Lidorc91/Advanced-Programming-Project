@@ -11,11 +11,15 @@ import graph.TopicManagerSingleton.TopicManager;
  * For methods without a javadoc please see {@link graph.Agent}
  */
 public class PowAgent implements Agent{
+	private static int agentCounter = 0;
+	private String name;
 	TopicManager _tm;
 	private Topic _inputTopic;
 	private Topic _outputTopic;
 
     public PowAgent(String[] subs, String[] pubs) {
+		agentCounter++;
+		this.name = "PowAgent"+agentCounter;
         _tm = TopicManagerSingleton.get();
     	_tm.getTopic(subs[0]).subscribe(this);
     	_inputTopic = _tm.getTopic(subs[0]);
@@ -26,7 +30,7 @@ public class PowAgent implements Agent{
     
 	@Override
 	public String getName() {		
-		return "PowAgent";
+		return this.name;
 	}
 
 	

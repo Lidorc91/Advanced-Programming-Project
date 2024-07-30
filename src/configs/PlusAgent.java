@@ -11,6 +11,8 @@ import graph.TopicManagerSingleton.TopicManager;
  */
 public class PlusAgent implements Agent {
 	TopicManager _tm;
+	private static int agentCounter = 0;
+	private String name;
 	private Topic _inputTopic1;
 	private Topic _inputTopic2;
 	private Topic _outputTopic;
@@ -18,6 +20,8 @@ public class PlusAgent implements Agent {
 	private double _y;
 
     public PlusAgent(String[] subs, String[] pubs) {
+		agentCounter++;
+		this.name = "PlusAgent"+agentCounter;
         _tm = TopicManagerSingleton.get();
     	_tm.getTopic(subs[0]).subscribe(this);
     	_tm.getTopic(subs[1]).subscribe(this);
@@ -33,7 +37,7 @@ public class PlusAgent implements Agent {
 
     @Override
     public String getName() {
-    	return "PlusAgent";
+    	return this.name;
     }
 
     /**

@@ -8,9 +8,11 @@
     <title>Frames Example</title>
   </head>
   <body>
-    <img src="logo.png" alt="Logo" class="logo" />
     <div id="frame_container">
-      <iframe name="form-iframe" src="form.html" class="iframe-right"></iframe>
+      <div id="left_container">
+        <img src="logo.png" alt="Logo" class="logo" />
+        <iframe name="form-iframe" src="form.html" class="iframe-left"></iframe>
+      </div>
       <iframe
         id="graph-iframe"
         name="graph-iframe"
@@ -20,7 +22,7 @@
       <iframe
         name="response-iframe"
         src="temp.html"
-        class="iframe-left"
+        class="iframe-right"
       ></iframe>
     </div>
   </body>

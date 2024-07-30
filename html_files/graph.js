@@ -5,13 +5,16 @@ document.addEventListener("DOMContentLoaded", () => {
       this.type = type;
       this.name = id.slice(1);
       this.value = value;
+      if (type === "Agent") {
+        this.name = this.name.slice(0, -1);
+      }
     }
   }
   const nodes = graphConfig.nodes.map((node) => new Node(node.id, node.type));
   const links = graphConfig.links;
   // Initialize D3.js force simulation
   const width = document.getElementById("graph-container").offsetWidth;
-  const height = 600;
+  const height = document.getElementById("graph-container").offsetHeight;
 
   const svg = d3
     .select("#graph-container")
@@ -134,7 +137,17 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("y2", (d) => d.target.y);
 
     // Update node positions
-    node.attr("transform", (d) => `translate(${d.x},${d.y})`);
+    node.attr("transform", (d) => {
+      const minX = 0;
+      const maxX = width - (d.type === "Topic" ? 80 : 50);
+      const minY = 0;
+      const maxY = height - (d.type === "Topic" ? 40 : 50);
+
+      d.x = Math.max(minX, Math.min(d.x, maxX));
+      d.y = Math.max(minY, Math.min(d.y, maxY));
+
+      return `translate(${d.x},${d.y})`;
+    });
   });
 
   function dragstarted(event, d) {
@@ -145,9 +158,9 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function dragged(event, d) {
     const minX = 0;
-    const maxX = width;
+    const maxX = width - (d.type === "Topic" ? 80 : 50); // adjust for node width
     const minY = 0;
-    const maxY = height;
+    const maxY = height - (d.type === "Topic" ? 40 : 50); // adjust for node height
 
     d.fx = Math.max(minX, Math.min(event.x, maxX));
     d.fy = Math.max(minY, Math.min(event.y, maxY));
