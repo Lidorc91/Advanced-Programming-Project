@@ -46,6 +46,7 @@ public class Graph extends ArrayList<Node>{
 		//ArrayList<Agent> visitedAgents = new ArrayList<Agent>();
 		tm.getTopics().forEach((topic) -> {
 			Node n = new Node("T" + topic._name);
+			n.setMsg(topic.getMessage());
 			//Add subscribers
 			for (Agent a : topic.getSubscribers()) {
 				if(searchGraph("A" + a.getName()) == -1) {

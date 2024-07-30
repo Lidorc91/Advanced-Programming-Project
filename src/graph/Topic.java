@@ -15,7 +15,7 @@ public class Topic {
     
     Topic(String name){
         this._name=name;
-        _msg = new Message("No message");
+        this._msg = new Message("No message");
     }
 
     /**
@@ -47,7 +47,7 @@ public class Topic {
 		 * @param  m  the message to publish
 		 */
     public void publish(Message m){
-    	_msg = m;
+      this._msg = m;
 		for(Agent a:subscribers) {
 			a.callback(_name, m);
 		}
@@ -95,10 +95,10 @@ public class Topic {
     }
 
     public Message getMessage(){
-    	return _msg;
+    	return   this._msg;
     }
 
     public void setMessage(Message msg){
-    	_msg = msg;
+      this._msg = msg;
     }
 }

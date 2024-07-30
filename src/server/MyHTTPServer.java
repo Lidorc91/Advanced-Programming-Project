@@ -1,6 +1,7 @@
 package server;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -208,13 +209,25 @@ public class MyHTTPServer extends Thread implements HTTPServer{
 					if (_client != null) {
 						_client.close();
 					}
-				} catch (IOException e) {
-					e.printStackTrace();
+					// Delete all files in the config_files directory
+					File directory = new File("config_files");
+					if (directory.exists()) {
+					File[] files = directory.listFiles();
+					if (files != null) {
+						for (File file : files) {
+							if (file.isFile()) {
+								if (!file.delete()) {
+									System.out.println("Failed to delete file: " + file.getName());
+								}
+							}
+						}				
+					}
 				}
-			}
-			
+			}catch (IOException e) {
+				e.printStackTrace();
+			}	
 		}
-		
+	}	
 	/**
 	 * An assistant method that finds the longest match of a given URI in a map of servlets so it will know which servlet to call.
 	 *

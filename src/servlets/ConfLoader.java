@@ -12,6 +12,7 @@ import views.HtmlGraphWriter;
  */
 public class ConfLoader implements Servlet{
 
+    static RequestInfo _requestInfo;
     /**
      * Handles the incoming request by processing the HTTP parameters, creating a file with the uploaded content,
      * loading the configuration and creating a graph, generating HTML for the computational graph, and sending
@@ -23,10 +24,10 @@ public class ConfLoader implements Servlet{
      */
     @Override
     public void handle(RequestInfo requestInfo, OutputStream toClient) throws IOException {
+       this._requestInfo = requestInfo;
         Map<String, String> httpParameters = requestInfo.getParameters();
         String fileName = httpParameters.get("filename");
         String currentWorkingDir = System.getProperty("user.dir");
-        System.out.println("Current working directory: " + currentWorkingDir);
         String fileContent = new String(requestInfo.getContent());
         File file = new File("config_files/" + fileName);
         file.createNewFile();

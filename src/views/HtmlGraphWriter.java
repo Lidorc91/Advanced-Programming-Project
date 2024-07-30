@@ -56,13 +56,18 @@ public class HtmlGraphWriter {
     private static String getGraphNodesHTML(Graph graph) {
 		StringBuilder nodesHTML = new StringBuilder();
 		for (Node node : graph) {
+			String msg = "";
 			String type = node.getName();
 			if(type.charAt(0) == 'A') {
 				type = "Agent";
 			}else if(type.charAt(0) == 'T') {
-				type = "Topic";	
+				type = "Topic";
+				if(node.getMsg().asText.toString() != "No message")
+				{
+					msg = node.getMsg().asText.toString();
+				}	
 			}
-			nodesHTML.append("    { id: \"" + node.getName() + "\", type: \"" + type + "\" }");
+			nodesHTML.append("    { id: \"" + node.getName() + "\", type: \"" + type + "\", message: \"" + msg + "\" }");
 			nodesHTML.append(",\n");
 		}
 		nodesHTML.delete(nodesHTML.length() - 2, nodesHTML.length()); // remove trailing comma and newline
