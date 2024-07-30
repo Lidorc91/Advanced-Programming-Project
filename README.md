@@ -60,10 +60,10 @@ To get started with the Computational Graph project:
 1. **Clone the Repository**: Clone this repository to your local machine using:
    ```sh
    git clone https://github.com/Lidorc91/Advanced-Programming-Project.git
-   cd src/project
+   cd Advanced-Programming-Project
    ```
 
-2. **Build and Run**: Ensure you have Java Development Kit (JDK) installed. Compile and run the project using your IDE of choice or using command line tools.
+2. **Build and Run**: Ensure you have Java Development Kit (JDK) installed. Build and run the project using your IDE of choice or using command line tools. (Run `Main.java` in `src/project` folder)
 
 3. **Explore**: Review the code in each directory to understand how it all works. (refer to program flow above for general understanding)
 
