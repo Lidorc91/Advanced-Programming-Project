@@ -60,7 +60,6 @@ public class PlusAgent implements Agent {
 	 * @param  topic  the topic of the received message
 	 * @param  msg    the received message (number)
 	 */
-	//TODO - Fix not being able to use 0 as a number (and "no message" bein equal to 0)
     @Override
     public void callback(String topic, Message msg) {
     	if(msg.asDouble == Double.NaN) {
